@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
 	'services',
-    'accounts'
+
 ]
 
 MIDDLEWARE = [
@@ -140,13 +141,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+localPath = "/hio_project_holder/hio_project"
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-# MEDIA_ROOT = '/home/media'
+MEDIA_ROOT = localPath +'/media/'
 MEDIA_URL = 'media/'
-# STATIC_ROOT = '/home/static'
-# STATIC_URL = '/static/'
+STATIC_ROOT = localPath+'/static/'
+STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
