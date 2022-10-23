@@ -40,7 +40,8 @@
               {{ form1.price|as_crispy_field }}
             </div>
             <hr>
-            <div class="col-6">
+            <div class="col-6" id="id_services_holder">
+              <p class="mt-0 mb-0"><label>إختر الخدمة / الخدمات</label></p>
               {{ form1.services }}
             </div>
             <div class="col-6">
@@ -57,5 +58,4 @@
             </div>
     </form>
 </div> 
-
 {% endblock %}

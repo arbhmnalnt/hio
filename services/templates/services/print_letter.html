@@ -20,16 +20,16 @@
             <div class="row border p-2 header">
                 <div class="col-3 text-center">
                     <br>
-                    <br>
                     <p>الهيئة العامة للتأمين الصحى</p>
                     <p center>فرع اسوان</p>
+                    <p center>مركز خدمة العملاء</p>
                 </div>
-                <div class="col-5">
-                    <div class="img_holder w-100"><img src="https://i.ibb.co/zF7BV6y/image.jpg"></div>
+                <div class="col-5 ">
+                    <div class="img_holder text-center"><img class="mr-auto ml-auto mt-5" src="http://41.33.97.114/serviceprovider/MainImage/logo.png" style="width: 25%;"></div>
                 </div>
                 <div class="col-4">
                     <p>تاريخ الطباعة : <span>12345684646554</span></p>
-                    <p>رقم خطاب التحويل : <span>12345684646554</span></p>
+                    <p>رقم خطاب التحويل : <span>1659</span><span> 10-2022 </span><span> aswan-hio</span></p>
                     <p>الرسوم المقررة : <span>12</span> جنيه</p>
                     <p>تاريخ اصدار الخطاب : <span>12345684646554</span></p>
                 </div>
@@ -46,7 +46,7 @@
                 </div>  
                 <div class="col-5 h6">
                     <p><span class="d-inline-block" style="width: 90px;">قانون الانتفاع </span><span>: {{ letter.law }}</span></p>
-                    <p><span class="d-inline-block" style="">العيادة المحول منها</span><span>: {{ letter.ayada }}</span></p>
+                    <p><span class="d-inline-block" style="">العيادة المحول منها</span><span>{{ letter.ayada }}</span></p>
                 </div>
                 <br>
                 <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">
@@ -57,7 +57,23 @@
                     <p><span>{% for service in letter.services.all %} <p class="border p-2">{{ service }}</p> {% endfor %}</span></p>
                     <p><span class="d-inline-block" style="width: 190px;">وذلك بالجهة</span> : <span>{{ letter.entity }}</span></p>
                 </div>
-                <div class="col-2">سسس</div>    
+                <div class="col-12 text-center">
+                    <p>يعتبر الخطاب سارى لمدة شهر من تاريخه</p>
+                </div>
+                <hr>
+                <div class="col-4">
+                    <p>مسئول التسجيل</p>
+                    <p>{{request.user.first_name}} {{request.user.last_name}}</p>
+                </div>
+                <div class="col-4">
+                    <p>خاتم شعار الجمهورية</p>
+                    <p></p>
+                </div>
+                <div class="col-4">
+                    <p>الطبيب المراجع</p>
+                    <p></p>
+                </div> 
+
             </div>
         </div>
 

@@ -16,7 +16,8 @@ def NewLetter(request):
 		form = LetterForm(request.POST)
 		if form.is_valid():
 			myform=form.save()
-			return redirect(reverse('PrintLetter'))
+			formId = myform.id
+			return redirect(reverse('PrintLetter',args=(formId,)))
 	else:
 		form = LetterForm()	
 
