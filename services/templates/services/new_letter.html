@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+
+{% block title %}<title>خدمة جديدة</title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+
+<div class="form_holder p-5 border">
+    <form action="#" method="post" class="form">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-4">
+              {{ form1.name|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form1.naId|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form1.by_doctor|as_crispy_field }}
+            </div>
+            <hr>
+            <div class="col-4">
+              {{ form1.law|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form1.by_doctor|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form1.ayada|as_crispy_field }}
+            </div>
+            <hr>
+            <div class="col-4">
+              {{ form1.diagnosis|as_crispy_field }}
+            </div>
+            <div class="col-4">
+                {{ form1.description|as_crispy_field }}
+            </div>
+            <div class="col-4">
+              {{ form1.price|as_crispy_field }}
+            </div>
+            <hr>
+            <div class="col-6">
+              {{ form1.services }}
+            </div>
+            <div class="col-6">
+              {{ form1.entity|as_crispy_field }}
+            </div>
+            <hr>
+            <div class="col-4">
+              {{ form1.created_by|as_crispy_field }}
+            </div>
+            <div class="col-4 mr-auto">
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary w-100 h-100 d-block" style="margin-top:32px">حفظ وطباعة</button>
+                {% endbuttons %}
+            </div>
+    </form>
+</div> 
+
+{% endblock %}

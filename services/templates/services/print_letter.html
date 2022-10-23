@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+	<!-- Add additional CSS in static file -->
+  {% load static %}
+  <title>طباعة خطاب</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAATU1OAPKBBwABAsoA//3+AOjq6gD5+fkA6erqANvb2wABAK8AAQDIAAkLsQDEw8UA+f3/AAICywCtPQQAoDAAAENDQwDx8/MA6ur0AP/+/QACAswAxsbGAOLg3wCKQBcArYlqAKo8AADCxMQAzJpzAKs/AACsPwAA+/7+AKFqRgDX0+wAMjasAO3v7wD+/v4ApS4HAOnr6gBVWsoA/fz8AOzt7QAAAMsA///8AP7+/wACAs4A/P36AJA0CQABAckA/vz9AJ5BHgDn6ekAAADMAKk/AgDa2toAqnZgAPr++ADz9vYA5OfnAPb29gAnI7sAtm0/AJszBACsPQAAYWJiALCAXQAwMb0AFAz1AEtUxQC0gF0A///+AMSbfADq4NoAycnrAPHy8gAAAL0A5+foAP79/ABFSsEA+f//AMXFxQAAALUAgy8BAP7//wDo+fgA////AO/w8ACdodoA8vn4APv9/QClpaUAAQLJAP39/QDs7u4AxcbDAP79/QCxsrIAiIvPABgUtwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkXFxcXFxcXFxcXFxcXFxcQzYICAgICAgICAgICAgIQ1UWUFBQUFBQXgxQUFBQUBZVVVU4KGFOPEQLCUJJRlVVFCsqA2JXExc6ISc0LQ5bVSJRTVUGYBsjEgURVV9LFQoNEFVVOSkzQF0FSjtVWTBUHjVPVQUHWgVWEQUGVS5NL1IdPyVGWEwBACYfVUEPGARVVTIaHCBFPTcZRz5IMVVVJCQsJCRTVVVVJFUkJCQkJAJcXFxcXFxcXFxcXFxcXAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAA=" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="{% static 'services/css/style.css' %}">
+</head>
+<body>
+    {% load bootstrap4 %}
+    {% load crispy_forms_tags %}
+
+    <div class="letter_holder  text-center" id="letter_holder" style="direction: rtl;">
+        <div class="holder p-5 border">
+            <div class="row border p-2 header">
+                <div class="col-3 text-center">
+                    <br>
+                    <br>
+                    <p>الهيئة العامة للتأمين الصحى</p>
+                    <p center>فرع اسوان</p>
+                </div>
+                <div class="col-5">
+                    <div class="img_holder w-100"><img src="https://i.ibb.co/zF7BV6y/image.jpg"></div>
+                </div>
+                <div class="col-4">
+                    <p>تاريخ الطباعة : <span>12345684646554</span></p>
+                    <p>رقم خطاب التحويل : <span>12345684646554</span></p>
+                    <p>الرسوم المقررة : <span>12</span> جنيه</p>
+                    <p>تاريخ اصدار الخطاب : <span>12345684646554</span></p>
+                </div>
+            </div>
+            <hr>
+            <div class="row p-2 part1 text-center">
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">بيانات المريض</div>
+                <div class="col-5 first text-right h6 mt-2">
+                    <p><span class="d-inline-block" style="width: 90px;">الاسم </span><span>: {{ letter.name }}</span></p>
+                    <p><span class="d-inline-block" style="">الرقم القومى</span><span> : {{ letter.naId }}</span></p>
+                    <p><span class="d-inline-block" style="width: 85px;">مقرر الاجراء</span><span> : {{ letter.by_doctor }}</span></p>
+                    <p><span class="d-inline-block" style="width: 85px;">التشخيص</span><span> : {{ letter.diagnosis }}</span></p>
+                    <p><span class="d-inline-block" style="width: 85px;">وصف الحالة</span><span> : {{ letter.description }}</span></p>
+                </div>  
+                <div class="col-5 h6">
+                    <p><span class="d-inline-block" style="width: 90px;">قانون الانتفاع </span><span>: {{ letter.law }}</span></p>
+                    <p><span class="d-inline-block" style="">العيادة المحول منها</span><span>: {{ letter.ayada }}</span></p>
+                </div>
+                <br>
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">
+                    <div class="">الخدمة المطلوبة للمريض</div>
+                </div>
+                <div class="col-12 h6 text-right">
+                    <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى :</span></p>
+                    <p><span>{% for service in letter.services.all %} <p class="border p-2">{{ service }}</p> {% endfor %}</span></p>
+                    <p><span class="d-inline-block" style="width: 190px;">وذلك بالجهة</span> : <span>{{ letter.entity }}</span></p>
+                </div>
+                <div class="col-2">سسس</div>    
+            </div>
+        </div>
+
+    </div>
+    <input type="button" onclick="printDiv('letter_holder')" value="اضغط للطباعة" />
+</body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        
+        document.body.dir = "rtl";
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+       }
+</script>

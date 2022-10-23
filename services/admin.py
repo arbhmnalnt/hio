@@ -2,16 +2,17 @@ from django.contrib import admin
 from .models import *
 from import_export.admin import ImportExportModelAdmin
 # Register your models here.
-#  optimizing the query for each service
-#     def get_queryset(self, request):
-#         qs = super().get_queryset(request)
-#         return qs.prefetch_related('services')
 
-#     def get_services(self, obj):
-#         return " - ".join([service.name for service in obj.services.all()])
 
 class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('name','naId', 'entity','created_at_date', 'created_by')
+    list_display = ('name','naId','get_services', 'entity','created_at_date', 'created_by')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('services')
+
+    def get_services(self, obj):
+        return " - ".join([service.name for service in obj.services.all()])
 
 class ServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)

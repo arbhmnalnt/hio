@@ -48,17 +48,17 @@ class Service(TimeStampMixin,models.Model):
 
 class Letter(TimeStampMixin,models.Model):
     # first part  patient info
-    name        = models.CharField(max_length=50, default="تجربة")
-    naId        = models.CharField(max_length=14, default="2980504252201")
-    by_doctor   = models.CharField(max_length=50, default="-") # doctor
-    law         = models.ForeignKey('Law', related_name='letter_law', on_delete=models.CASCADE)
-    ayada       = models.ForeignKey('Ayadat', related_name='letter_law', on_delete=models.CASCADE)
+    name        = models.CharField(max_length=50, verbose_name="اسم المريض ثلاثى")
+    naId        = models.CharField(max_length=14, verbose_name="الرقم القومى")
+    by_doctor   = models.CharField(max_length=50, verbose_name="مقرر الإجراء") # doctor
+    law         = models.ForeignKey('Law', related_name='letter_law', on_delete=models.CASCADE, verbose_name="قانون الانتفاع")
+    ayada       = models.ForeignKey('Ayadat', related_name='letter_law', on_delete=models.CASCADE, verbose_name="العيادة المحول منها")
     diagnosis   = models.CharField(max_length=50, default="-", verbose_name="التشخيص") # التشخيص
     description = models.CharField(max_length=50, default="-", verbose_name="وصف الحالة")
     
     # second part  services info
     price       = models.IntegerField(default=0, verbose_name="الرسوم المقررة")
-    services    = models.ManyToManyField('Service', blank=True, null=True, related_name='letters',verbose_name="الخدمات")
-    entity      = models.ForeignKey('Entity', related_name='letter_entity', on_delete=models.CASCADE)
-    created_by  = models.CharField(max_length=50, default="-", blank=True, null=True) # created by employee 
+    services    = models.ManyToManyField('Service', blank=True, related_name='services',verbose_name="الخدمات")
+    entity      = models.ForeignKey('Entity', related_name='letter_entity', on_delete=models.CASCADE, verbose_name="الجهة")
+    created_by  = models.CharField(max_length=50, default="-", verbose_name="مسئول التسجيل") # created by employee 
 
