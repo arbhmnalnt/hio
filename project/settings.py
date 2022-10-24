@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 	'services',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4' 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,21 +80,20 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # variables to be changed to work on localhost or online in pythonanywhere
 dataBaseName = "hio"
-dataBaseUser = "root"
+dataBaseUser = "hio"
 password     = "123456"
-host         = "127.0.0.1"
-port         = "3306"
+host         = "hio.mysql.pythonanywhere-services.com"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': dataBaseName,
-        'USER': dataBaseUser,
-        'PASSWORD': password,
-        'HOST': host,
-        'PORT': port,
+        'NAME': 'hio$hio',
+        'USER': 'hio',
+        'PASSWORD': 'dMDR!p^w',
+        'HOST': "hio.mysql.pythonanywhere-services.com",
+        'PORT':'3306',
         'OPTIONS': {
             'sql_mode': 'traditional',
         }
@@ -143,13 +142,18 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-localPath = "/hio_project_holder/hio_project"
+localPath = "/home/hio_project"
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = localPath +'/media/'
 MEDIA_URL = 'media/'
 STATIC_ROOT = localPath+'/static/'
 STATIC_URL = '/static/'
+
+# MEDIA_ROOT = '/home/aswangreen2/aswangreen/media'
+# MEDIA_URL = '/media/'
+# STATIC_ROOT = '/home/aswangreen2/aswangreen/static'
+# STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
