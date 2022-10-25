@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.urls import is_valid_path, reverse
 from .forms import *
+from django.contrib.auth.decorators import login_required
+
 
 
 def home(request):
@@ -11,7 +13,7 @@ def PrintLetter(request, pk):
 	ctx = {'letter':letter}
 	return render(request,'services/print_letter.html',ctx)
 
-#@login_required
+@login_required
 def NewLetter(request):
 	if request.method=='POST':
 		form = LetterForm(request.POST)
