@@ -25,6 +25,7 @@
 				<a class="p-2 text-dark" href="#">عمل خدمة جديدة</a>
 			</nav>
 			<a class="btn btn-outline-primary" href="#">مرحبا  {{ request.user.username }}</a>
+			<a class="btn btn-outline-primary mr-3" href="/accounts/logout">تسجيل الخروج</a>
 		</div>
 	<div class="col-10 m-auto">
 	{% block content %}{% endblock %}
