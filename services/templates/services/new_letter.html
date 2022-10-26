@@ -7,7 +7,7 @@
 {% load crispy_forms_tags %}
 
 <div class="form_holder p-5 border">
-    <form action="#" method="post" class="form">
+    <form action="#" method="post" class="form" required>
         {% csrf_token %}
         <div class="row">
             <div class="col-4">
@@ -57,5 +57,5 @@
                 {% endbuttons %}
             </div>
     </form>
-</div> 
+</div>
 {% endblock %}

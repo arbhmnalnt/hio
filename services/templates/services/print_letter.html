@@ -10,50 +10,6 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
   <link rel="stylesheet" href="{% static 'services/css/style.css' %}">
-  <style>
-    .info_holder span.info{
-        width: 160px;
-    }
-    .info_holder span.value{
-        width: auto;
-        margin-right: 0.5rem;
-    }
-
-    /*
-    .info_holder span.info{
-        width: 150px;
-    } */
-    .text_spec{
-        font-size: 1.2rem !important;
-    }
-
-    .info_holder.d-flex{
-        justify-content: flex-start;
-    }
-
-    .colon{
-        width: 5px;
-    }
-
-    .services_list{
-        min-height: 100px;
-    }
-
-    .gover{
-        height: 130px;
-        width: 250px;
-        border: 1px solid;
-        margin-right: auto;
-        margin-left: auto;
-        border-radius: 50%;
-    }
-
-      @media print {
-          #print_holder {
-            display: none;
-          }
-        }
-  </style>
 </head>
 <body>
     {% load bootstrap4 %}
@@ -61,7 +17,7 @@
 
     <div class="letter_holder  text-center" id="letter_holder" style="direction: rtl;">
         <div class="holder p-5 border">
-            <div class="row border p-2 header h6">
+            <div class="row border p-2 header">
                 <div class="col-3 text-center">
                     <br>
                     <p>الهيئة العامة للتأمين الصحى</p>
@@ -69,9 +25,9 @@
                     <p center>مركز خدمة العملاء</p>
                 </div>
                 <div class="col-5 ">
-                    <div class="img_holder text-center"><img class="mr-auto ml-auto mt-3" src="https://iili.io/DINyRn.png" style="width: 45%;"></div>
+                    <div class="img_holder text-center"><img class="mr-auto ml-auto mt-5" src="http://41.33.97.114/serviceprovider/MainImage/logo.png" style="width: 25%;"></div>
                 </div>
-                <div class="col-4 ">
+                <div class="col-4">
                     <p>تاريخ الطباعة : <span>12345684646554</span></p>
                     <p>رقم خطاب التحويل : <span>1659</span><span> 10-2022 </span><span> aswan-hio</span></p>
                     <p>الرسوم المقررة : <span>12</span> جنيه</p>
@@ -81,87 +37,60 @@
             <hr>
             <div class="row p-2 part1 text-center">
                 <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">بيانات المريض</div>
-                <div class="col-6 first h6 mt-2 text_spec">
-                    <p class="info_holder d-flex">
-                        <span class="info" style="">الاسم</span>
-                        <span class="colon"> : </span>
-                        <span class="value">{{ letter.name }}</span>
-                    </p>
-                    <p class="info_holder d-flex">
-                        <span class="info" style="">الرقم القومى</span>
-                        <span class="colon"> : </span>
-                        <span class="value"> {{ letter.naId }}</span>
-                    </p>
-                    <p class="info_holder d-flex">
-                        <span class="info" style="">مقرر الاجراء</span>
-                        <span class="colon"> : </span>
-                        <span class="value">{{ letter.by_doctor }}</span>
-                    </p>
-                    <p class="info_holder d-flex">
-                        <span class="info" style="">التشخيص</span>
-                        <span class="colon"> : </span>
-                        <span class="value">{{ letter.diagnosis }}</span>
-                    </p>
-                    <p class="info_holder d-flex">
-                        <span class="info" style="">وصف الحالة</span>
-                        <span class="colon"> : </span>
-                        <span class="value">{{ letter.description }}</span></p>
-                </div>
-                <div class="col-6 h6 mt-5 text_spec">
-                    <p class="info_holder">
-                        <span class="info" style="">قانون الانتفاع</span>
-                        <span class="colon"> : </span>
-                        <span class="value">{{ letter.law }}</span>
-                    </p>
-                    <p class="info_holder">
-                        <span class="info" style="">العيادة المحول منها</span>
-                        <span class="colon"> : </span>
-                        <span class="value">{{ letter.ayada }}</span>
-                    </p>
+                <div class="col-5 first text-right h6 mt-2">
+                    <p><span class="d-inline-block" style="width: 90px;">الاسم </span><span>: {{ letter.name }}</span></p>
+                    <p><span class="d-inline-block" style="">الرقم القومى</span><span> : {{ letter.naId }}</span></p>
+                    <p><span class="d-inline-block" style="width: 85px;">مقرر الاجراء</span><span> : {{ letter.by_doctor }}</span></p>
+                    <p><span class="d-inline-block" style="width: 85px;">التشخيص</span><span> : {{ letter.diagnosis }}</span></p>
+                    <p><span class="d-inline-block" style="width: 85px;">وصف الحالة</span><span> : {{ letter.description }}</span></p>
+                </div>  
+                <div class="col-5 h6">
+                    <p><span class="d-inline-block" style="width: 90px;">قانون الانتفاع </span><span>: {{ letter.law }}</span></p>
+                    <p><span class="d-inline-block" style="">العيادة المحول منها</span><span>{{ letter.ayada }}</span></p>
                 </div>
                 <br>
-                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border-bottom">
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">
                     <div class="">الخدمة المطلوبة للمريض</div>
                 </div>
                 <div class="col-12 h6 text-right">
-                    <p class="border-bottom border-info pb-2 mb-2" style="width: 250px">
-                        <span class="d-inline-block" style="font-size: 1.5rem;">يحتاج المريض إلى :</span>
-                    </p>
-                    <p>
-                        <p class="services_list">
-                            {% for service in letter.services.all %}
-                            <span class="border p-2 d-block mb-2">{{ service }}</span>
-                            {% endfor %}
-                        </p>
-                    </p>
-                    <p class="mt-3 mb-3"><span class="d-inline-block" style="width: 190px;">وذلك بالجهة</span> : <span>{{ letter.entity }}</span></p>
+                    <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى :</span></p>
+                    <p><span>{% for service in letter.services.all %} <p class="border p-2">{{ service }}</p> {% endfor %}</span></p>
+                    <p><span class="d-inline-block" style="width: 190px;">وذلك بالجهة</span> : <span>{{ letter.entity }}</span></p>
                 </div>
                 <div class="col-12 text-center">
                     <p>يعتبر الخطاب سارى لمدة شهر من تاريخه</p>
                 </div>
                 <hr>
-                <div class="col-4 font-weight-bolder">
+                <div class="col-4">
                     <p>مسئول التسجيل</p>
                     <p>{{request.user.first_name}} {{request.user.last_name}}</p>
                 </div>
-                <div class="col-4 font-weight-bolder">
+                <div class="col-4">
                     <p>خاتم شعار الجمهورية</p>
-                    <p class="gover mt-4 font-weight-bolder"></p>
-                </div>
-                <div class="col-4 font-weight-bolder">
-                    <p>الطبيب المراجع</p>
                     <p></p>
                 </div>
+                <div class="col-4">
+                    <p>الطبيب المراجع</p>
+                    <p></p>
+                </div> 
 
-            </div>
-            <div class="row">
-                <div class="col-6 m-auto" id="print_holder">
-                    <button class="w-100 btn btn-primary d-block btn btn-primary w-100 p-3 h2" id="print_page" onclick="window.print();">اضغط للطباعة</button>
-                </div>
             </div>
         </div>
 
     </div>
-    
+    <input type="button" onclick="printDiv('letter_holder')" value="اضغط للطباعة" />
 </body>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        
+        document.body.dir = "rtl";
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+       }
+</script>
