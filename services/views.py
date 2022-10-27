@@ -16,19 +16,28 @@ def PrintLetter(request, pk):
 
 @login_required
 def NewLetter(request):
+    user = request.user
+    if user.groups.filter(name="services_member"):
+        return redirect('/services/new')
+    else:
+        pass
+        # for testing only untill making the dashboard 
+        # return redirect('/clinics/erorr_page')
     if request.method=='POST':
-	    form = LetterForm(request.POST)
-	    if form.is_valid():
-		    myform=form.save()
-		    formId = myform.id
-		    return redirect(reverse('PrintLetter',args=(formId,)))
+        form = LetterForm(request.POST)
+    if form.is_valid():
+            myform=form.save()
+            formId = myform.id
+            return redirect(reverse('PrintLetter',args=(formId,)))
     else:
         form = LetterForm()
         userId = request.user.id
         userArea_id =  User.objects.get(pk=userId).employee.area.id
+        print(userArea_id)
         if userArea_id != 7:
-            userArea =  User.objects.get(pk=userId).employee.area
-            form.fields["ayada"].queryset = Ayadat.objects.filter(area=userArea)
+            # userAyada =  User.objects.get(pk=userId).employee.area.id
+            # print(userAyada)
+            form.fields["ayada"].queryset = Ayadat.objects.filter(id=userArea_id)
         else:
             form.fields["ayada"].queryset = Ayadat.objects.filter(is_letter=True)
     ctx = {'form1':form}

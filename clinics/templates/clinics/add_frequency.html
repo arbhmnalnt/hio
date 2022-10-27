@@ -1,0 +1,30 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>عيادة {{clinicName}}</title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<h6 class="text-center pt-3 pb-3">
+    <span class="badge badge-info p-3">تردد عيادة {{clinicName}} اليوم {% now "d-m-Y" %}</span>
+</h6>
+<div class="form_holder p-5 border">
+    <form action="#" method="post" name="frequency" class="form" required>
+        {% csrf_token %}
+        <div class="cats_holder row">
+            {% for cat in categories %}
+            <div class="col-md-3 col-sm-6 text-center mr-auto ml-auto mb-5">
+                <span class="d-inline-block h4">
+                    <label class="badge badge-pill badge-info p-3">{{cat}}</label>
+                </span>
+                <p><input value="0"  name="{{cat.id}}" class="text-center form-control" placeholder="تردد عيادة {{cat}}"></p>
+            </div>
+            {% endfor %}
+            <div class="col-md-4 col-sm-10 m-auto">
+                <input type="submit" name="frequency_form" class="d-block p-2 w-100  btn btn-outline-primary btn-lg" style="margin-top:32px" value="حفظ">
+            </div>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}
