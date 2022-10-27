@@ -15,7 +15,8 @@ class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('specific','ayada','created_at_date')
 
 class DailyReportAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('day','category','num')
+    search_fields = ['day', 'ayada__name']
+    list_display = ('day','category','ayada','num')
 
 admin.site.register(specific, SpecificAdmin)
 
