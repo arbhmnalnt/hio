@@ -1,19 +1,17 @@
-{% load bootstrap4 %}
 <!DOCTYPE html>
 <html lang="ar">
 <head>
 	<!-- Add additional CSS in static file -->
   {% load static %}
-  {% block title %}<title>تسجيل الدخول</title>{% endblock %}
+  {% block title %}<title>{{clinicName}}</title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAATU1OAPKBBwABAsoA//3+AOjq6gD5+fkA6erqANvb2wABAK8AAQDIAAkLsQDEw8UA+f3/AAICywCtPQQAoDAAAENDQwDx8/MA6ur0AP/+/QACAswAxsbGAOLg3wCKQBcArYlqAKo8AADCxMQAzJpzAKs/AACsPwAA+/7+AKFqRgDX0+wAMjasAO3v7wD+/v4ApS4HAOnr6gBVWsoA/fz8AOzt7QAAAMsA///8AP7+/wACAs4A/P36AJA0CQABAckA/vz9AJ5BHgDn6ekAAADMAKk/AgDa2toAqnZgAPr++ADz9vYA5OfnAPb29gAnI7sAtm0/AJszBACsPQAAYWJiALCAXQAwMb0AFAz1AEtUxQC0gF0A///+AMSbfADq4NoAycnrAPHy8gAAAL0A5+foAP79/ABFSsEA+f//AMXFxQAAALUAgy8BAP7//wDo+fgA////AO/w8ACdodoA8vn4APv9/QClpaUAAQLJAP39/QDs7u4AxcbDAP79/QCxsrIAiIvPABgUtwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkXFxcXFxcXFxcXFxcXFxcQzYICAgICAgICAgICAgIQ1UWUFBQUFBQXgxQUFBQUBZVVVU4KGFOPEQLCUJJRlVVFCsqA2JXExc6ISc0LQ5bVSJRTVUGYBsjEgURVV9LFQoNEFVVOSkzQF0FSjtVWTBUHjVPVQUHWgVWEQUGVS5NL1IdPyVGWEwBACYfVUEPGARVVTIaHCBFPTcZRz5IMVVVJCQsJCRTVVVVJFUkJCQkJAJcXFxcXFxcXFxcXFxcXAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAA=" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-
-
-  <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'clinic/css/style.css' %}">
 </head>
 <body>
 
@@ -23,46 +21,41 @@
 				<img class="w-100" src="https://iili.io/DgQvzG.png">
 			</div>
 			<h5 class="my-0 ml-md-auto font-weight-normal">الهيئة العامة للتأمين الصحى - فرع اسوان</h5>
-
-
 			<nav class="my-2 my-md-0 mr-md-3">
-				<a class="p-2 text-dark" href="#">الرئيسية</a>
-				<a class="p-2 text-dark" href="#">أخر الأخبار</a>
-				<a class="p-2 text-dark" href="#">جدول مواعيد الأطباء</a>
+				<a class="p-2 text-dark" href="#">اللجان التخصصية</a>
 			</nav>
-			<nav class="my-2 my-md-0 mr-md-3">
-				<a class="p-2 text-dark" href="#">خدمة العملاء</a>
-			</nav>
-			<a class="btn btn-outline-primary" href="/accounts/login">تسجيل الدخول</a>
+			<a class="btn btn-outline-primary mb-4 mb-md-0 mb-lg-0" href="#">مرحبا  {{ request.user.username }}</a>
+			<a class="btn btn-warning mr-3 text-white" href="/accounts/logout">تسجيل الخروج</a>
 		</div>
-	<div class="col-sm-10 m-auto">
+	<div class="col-10 m-auto">
 	{% block content %}{% endblock %}
 
-	{% block pagination %}
-		{% if is_paginated %}
-			<div class="pagination">
-				<span class="page-links">
-					{% if page_obj.has_previous %}
-						<a href="#">previous</a>
-					{% endif %}
-					<span class="page-current">
-						Page 5.
-					</span>
-					{% if page_obj.has_next %}
-						<a href="#">next</a>
-					{% endif %}
-				</span>
-			</div>
-		{% endif %}
-	{% endblock %}
-
 	</div>
 
 	</div>
 	</div>
 
 	</div>
-	<script src="{% static 'accounts/js/plugins.js' %}"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script>
+		// $('#id_services_holder').hide()
+		//setTimeout(function(){
+		  //console.log("testing")
+		  //$('#id_services').chosen()
+		//},300)
+		//$("#id_services_chosen").width("300px")
+	  </script>
+	<script src="{% static 'services/js/plugins.js' %}"></script>
+	<script>
+	    $("input.form-control").click(function(){
+	        $(this).attr('value', '')
+	    })
+	</script>
 </body>
 </html>

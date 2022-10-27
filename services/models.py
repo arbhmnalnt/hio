@@ -34,10 +34,6 @@ class TimeStampMixin(models.Model):
 class Area(TimeStampMixin,models.Model):
     name = models.CharField(max_length=100,default='-')
 
-class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    area =  models.ForeignKey('area', related_name='employee_area', on_delete=models.CASCADE)
-
 class Law(TimeStampMixin,models.Model):
     name = models.CharField(max_length=100,default='-')
 
@@ -46,6 +42,10 @@ class Ayadat(TimeStampMixin, models.Model):
     area = models.ForeignKey('Area', related_name='ayada_area', on_delete=models.CASCADE)
     # is ayada make customer letters or not
     is_letter = models.BooleanField(default=True)
+
+class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    area =  models.ForeignKey('Ayadat', related_name='employee_ayada', on_delete=models.CASCADE)
 
 class Entity(TimeStampMixin,models.Model):
     name    = models.CharField(max_length=100, default='-')

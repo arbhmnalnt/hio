@@ -1,0 +1,1 @@
+python manage.py dumpdata --natural-foreign -e sessions -e contenttypes -e auth.Permission  > dataTry2.json
