@@ -4,19 +4,19 @@
 {% block content %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
-<h5 class="text-center pt-3 pb-3 m-auto">
-    <span class="badge badge-info text-center ">تردد عيادة {{clinicName}}<br><br> اليوم {% now "d-m-Y" %}</span>
-</h5>
-<div class="form_holder p-5 border">
+<p class="h3 m-auto">
+    <span class="badge badge-info w-100 pt-3 pb-3">تردد عيادة {{clinicName}}<br><br> اليوم {% now "d-m-Y" %}</span>
+</p>
+<div class="pt-4 border">
     <form action="#" method="post" name="frequency" class="form" required>
         {% csrf_token %}
         <div class="cats_holder row">
             {% for cat in categories %}
-            <div class="col-md-3 col-sm-6 text-center mr-auto ml-auto mb-5">
-                <span class="d-inline-block h4">
-                    <label class="badge badge-pill badge-info p-3">{{cat}}</label>
+            <div class="col-md-3 col-sm-6 mr-auto ml-auto border-bottom mb-2">
+                <span class="d-inline-block h2 w-100">
+                    <label class="badge badge-primary w-100 p-3">{{cat}}</label>
                 </span>
-                <p><input value="0"  name="{{cat.id}}" class="text-center form-control" placeholder="تردد عيادة {{cat}}"></p>
+                <p><input value="0"  name="{{cat.id}}" class="text-center form-control custom" placeholder="تردد عيادة {{cat}}"></p>
             </div>
             {% endfor %}
             <div class="col-md-4 col-sm-10 m-auto">

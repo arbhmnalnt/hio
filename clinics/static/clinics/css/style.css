@@ -1,0 +1,22 @@
+/* mobile style*/
+@media (min-width: 276px) {  
+  .logo_holder {
+  	width:50%;
+  }
+  
+  .main_header{
+      padding-top:0.5rem;
+      padding-bottom:0.5rem;
+      border:1px solid #eee;
+      text-align:center;
+  }
+  
+  input.custom{
+    font-size: larger;
+    font-weight: 700;
+    margin-top:-15px !important;
+}
+
+
+
+/* bigger screens style */
