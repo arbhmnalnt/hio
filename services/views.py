@@ -21,14 +21,14 @@ def NewLetter(request):
         return redirect('/services/new')
     else:
         pass
-        # for testing only untill making the dashboard 
+        # for testing only untill making the dashboard
         # return redirect('/clinics/erorr_page')
     if request.method=='POST':
         form = LetterForm(request.POST)
-    if form.is_valid():
-            myform=form.save()
-            formId = myform.id
-            return redirect(reverse('PrintLetter',args=(formId,)))
+        if form.is_valid():
+                myform=form.save()
+                formId = myform.id
+                return redirect(reverse('PrintLetter',args=(formId,)))
     else:
         form = LetterForm()
         userId = request.user.id
