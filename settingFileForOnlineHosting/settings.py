@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
 	'services',
+    'clinics'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -59,6 +60,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+LOGIN_REDIRECT_URL = '/clinics/profile'
+
 
 TEMPLATES = [
     {
@@ -79,9 +82,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 # variables to be changed to work on localhost or online in pythonanywhere
-dataBaseName = "hio"
+dataBaseName = "test"
 dataBaseUser = "hio"
-password     = "123456"
+password     = "vr^*6QgT"
 host         = "hio.mysql.pythonanywhere-services.com"
 
 # Database
@@ -91,7 +94,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'hio$hio',
         'USER': 'hio',
-        'PASSWORD': 'dMDR!p^w',
+        'PASSWORD': 'vr^*6QgT',
         'HOST': "hio.mysql.pythonanywhere-services.com",
         'PORT':'3306',
         'OPTIONS': {
@@ -149,11 +152,6 @@ MEDIA_ROOT = localPath +'/media/'
 MEDIA_URL = 'media/'
 STATIC_ROOT = localPath+'/static/'
 STATIC_URL = '/static/'
-
-# MEDIA_ROOT = '/home/aswangreen2/aswangreen/media'
-# MEDIA_URL = '/media/'
-# STATIC_ROOT = '/home/aswangreen2/aswangreen/static'
-# STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
