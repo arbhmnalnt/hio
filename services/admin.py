@@ -14,6 +14,18 @@ class EmployeeInline(admin.StackedInline):
 class UserAdmin(BaseUserAdmin):
     inlines = [EmployeeInline]
 
+class ServiceSubClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name',)
+
+class ServiceMainClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name',)
+
+class EntityMainClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name',)
+
+class EntitySubClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name',)
+
 class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name','naId','get_services', 'entity','created_at_date', 'created_by')
 
@@ -25,10 +37,30 @@ class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         return " - ".join([service.name for service in obj.services.all()])
 
 class ServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'get_mainClass_name', 'get_subClass_name', 'code', 'price')
+
+    def get_mainClass_name(self, obj):
+        return obj.mainClass.name
+    get_mainClass_name.admin_order_field  = 'name'  #Allows column order sorting
+    get_mainClass_name.short_description = 'التصنيف الرئيسى'  #Renames column he
+
+    def get_subClass_name(self, obj):
+        return obj.subClass.name
+    get_subClass_name.admin_order_field  = 'name'  #Allows column order sorting
+    get_subClass_name.short_description = 'التصنيف الفرعى'  #Renames column he
 
 class EntityAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'get_mainClass_name', 'get_subClass_name', 'address', 'phone')
+
+    def get_mainClass_name(self, obj):
+        return obj.mainClass.name
+    get_mainClass_name.admin_order_field  = 'name'  #Allows column order sorting
+    get_mainClass_name.short_description = 'التصنيف الرئيسى'  #Renames column he
+
+    def get_subClass_name(self, obj):
+        return obj.subClass.name
+    get_subClass_name.admin_order_field  = 'name'  #Allows column order sorting
+    get_subClass_name.short_description = 'التصنيف الفرعى'  #Renames column he
 
 class AyadatAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name', 'area')
@@ -39,9 +71,27 @@ class LawAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class AreaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)
 
+class EntityServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('get_entity_name', 'get_services')
+
+    def get_entity_name(self, obj):
+        return obj.entity.name
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.prefetch_related('services_entity')
+
+    def get_services(self, obj):
+        return " - ".join([service.name for service in obj.services.all()])
+
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+admin.site.register(EntityMainClass, EntityMainClassAdmin)
+admin.site.register(EntitySubClass, EntitySubClassAdmin)
+admin.site.register(ServiceMainClass ,ServiceMainClassAdmin)
+admin.site.register(ServiceSubClass ,ServiceSubClassAdmin)
+admin.site.register(EntityService ,EntityServiceAdmin)
 
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Law, LawAdmin)

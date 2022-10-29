@@ -47,22 +47,43 @@ class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     area =  models.ForeignKey('Ayadat', related_name='employee_ayada', on_delete=models.CASCADE)
 
+class EntityMainClass(TimeStampMixin,models.Model):
+    name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
+
+class EntitySubClass(TimeStampMixin,models.Model):
+    name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
+
 class Entity(TimeStampMixin,models.Model):
-    name    = models.CharField(max_length=100, default='-')
+    name    = models.CharField(max_length=100, default='-', db_index=True)
     phone   = models.CharField(max_length=20, default='-')
     address = models.CharField(max_length=100, default='-')
+    mainClass = models.ForeignKey('EntityMainClass', related_name='entity_main', default=3, on_delete=models.CASCADE, verbose_name="التصنيف الرئيسى",null=True, db_index=True)
+    subClass  = models.ForeignKey('EntitySubClass', related_name='entity_sub', default=5, on_delete=models.CASCADE, verbose_name="التصنيف الفرعى",null=True, db_index=True)
 
-# class Description(TimeStampMixin,models.Model):
-#     name = models.CharField(max_length=100, default='-')
+# ===
 
-# another name for services
+class ServiceMainClass(TimeStampMixin,models.Model):
+    name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
+
+class ServiceSubClass(TimeStampMixin,models.Model):
+    name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
+
+
 class Service(TimeStampMixin,models.Model):
-    name = models.CharField(max_length=100, default='-', verbose_name='اسم الخدمة')
+    name      = models.CharField(max_length=100, default='-', verbose_name='اسم الخدمة', db_index=True)
+    mainClass = models.ForeignKey('ServiceMainClass', related_name='service_main', on_delete=models.CASCADE, verbose_name="التصنيف الرئيسى",null=True, db_index=True)
+    subClass  = models.ForeignKey('ServiceSubClass', related_name='service_sub', on_delete=models.CASCADE, verbose_name="التصنيف الفرعى",null=True, db_index=True)
+    code      = models.IntegerField(unique=True,null=True, db_index=True)
+    price     = models.IntegerField(unique=True,null=True, blank=True)
+
+class EntityService(TimeStampMixin,models.Model):
+    entity   = models.ForeignKey('Entity', related_name='entity_service', on_delete=models.CASCADE, verbose_name="الجهة",null=True, db_index=True)
+    services = models.ManyToManyField('Service',related_name='services_entity', default='-')
 
 class Letter(TimeStampMixin,models.Model):
     # first part  patient info
-    name        = models.CharField(max_length=50, verbose_name="اسم المريض ثلاثى")
-    naId        = models.CharField(max_length=14, verbose_name="الرقم القومى")
+    name        = models.CharField(max_length=50, verbose_name="اسم المريض ثلاثى", db_index=True)
+    naId        = models.CharField(max_length=14, verbose_name="الرقم القومى", db_index=True)
     by_doctor   = models.CharField(max_length=50, verbose_name="مقرر الإجراء") # doctor
     law         = models.ForeignKey('Law', related_name='letter_law', on_delete=models.CASCADE, verbose_name="قانون الانتفاع")
     ayada       = models.ForeignKey('Ayadat', related_name='letter_law', on_delete=models.CASCADE, verbose_name="العيادة المحول منها")

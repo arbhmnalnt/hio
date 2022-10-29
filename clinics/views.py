@@ -51,15 +51,12 @@ def addFrequency(request):
             try:
                 print(f"here 1== > ")
                 formDict = frequency_form.dict()
-                addDataToDailyReport(formDict,user_clinic)
-                return redirect('thanks')
+                status = addDataToDailyReport(formDict,user_clinic)
+                print(f"statue => {status}")
+                return redirect('/clinics/thanks')
             except Exception as e:
                 print(f"exception {e}")
-                # .get('1')
-                # new_form = frequency_form.save()
-                # new_form.ayada=user_clinic
-                # frequency_form.save()
-                return redirect('/clinics/thanks')
+                return redirect('/clinics/erorr')
     else:
         pass
     categories = Categories_obj
