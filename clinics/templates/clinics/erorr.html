@@ -1,0 +1,23 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>عيادة {{clinicName}}</title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<h2 class="text-center pt-3 pb-3">
+    <span class="badge badge-danger p-3">عذرا حدثت مشكلة</span>
+</h2>
+<div class="row holder text-center text-info border">
+    <div class="col-md-6 col-sm-10 m-auto lead text-primary p-3" style="font-weight:bolder">
+        {{msg}}
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-6 col-sm-10 text-center m-auto">
+        <span class="d-block badge badge-danger" style="white-space: pre-wrap;line-height: 1.3rem;">
+            تنوية : لايمكن التعديل على البيانات إلا من خلال التواصل مع المسؤول
+        </span>
+    </div>
+</div>
+{% endblock %}

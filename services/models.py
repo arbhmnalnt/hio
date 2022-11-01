@@ -45,7 +45,8 @@ class Ayadat(TimeStampMixin, models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    area =  models.ForeignKey('Ayadat', related_name='employee_ayada', on_delete=models.CASCADE)
+    area =  models.ForeignKey('Ayadat', related_name='employee_ayada', on_delete=models.CASCADE, null=True, blank=True)
+    area2 = models.ManyToManyField('Ayadat',related_name='employee_ayadat')
 
 class EntityMainClass(TimeStampMixin,models.Model):
     name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
@@ -66,7 +67,7 @@ class ServiceMainClass(TimeStampMixin,models.Model):
     name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
 
 class ServiceSubClass(TimeStampMixin,models.Model):
-    name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الرئيسى', db_index=True)
+    name = models.CharField(max_length=100, default='-', verbose_name='التصنيف الفرعى', db_index=True)
 
 
 class Service(TimeStampMixin,models.Model):
@@ -89,7 +90,7 @@ class Letter(TimeStampMixin,models.Model):
     ayada       = models.ForeignKey('Ayadat', related_name='letter_law', on_delete=models.CASCADE, verbose_name="العيادة المحول منها")
     diagnosis   = models.CharField(max_length=50, default="-", verbose_name="التشخيص") # التشخيص
 
-    description = models.CharField(max_length=50, default="-", verbose_name="وصف الحالة")
+    description = models.TextField(max_length=250, default="-", verbose_name="وصف الحالة")
 
     # second part  services info
     price       = models.IntegerField(default=0, verbose_name="الرسوم المقررة")

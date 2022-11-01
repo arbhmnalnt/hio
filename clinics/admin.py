@@ -16,7 +16,7 @@ class CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 class DailyReportAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['day', 'ayada__name']
-    list_display = ('day','category','ayada','num')
+    list_display = ('day','category','ayada','specialist','advisory','papers', 'childPapers','num')
 
 admin.site.register(specific, SpecificAdmin)
 

@@ -10,26 +10,46 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
   <link rel="stylesheet" href="{% static 'services/css/style.css' %}">
+
+  <style>
+    @media print
+    {
+        .no-print, .no-print *
+        {
+            display: none !important;
+        }
+    }
+
+    .font-weight-bold{
+        font-size:1rem;
+    }
+
+    .no-wrap-overflow{
+        overflow:visible;
+        white-space:nowrap;
+    }
+  </style>
+
 </head>
-<body>
+<body style="font-family:Tahoma; color:#333">
     {% load bootstrap4 %}
     {% load crispy_forms_tags %}
 
     <div class="letter_holder  text-center" id="letter_holder" style="direction: rtl;">
-        <div class="holder p-5 border">
+        <div class="holder p-5 border" style="font-weight:700">
             <div class="row border p-2 header">
-                <div class="col-3 text-center">
+                <div class="col-4 text-center">
                     <br>
                     <p>الهيئة العامة للتأمين الصحى</p>
                     <p center>فرع اسوان</p>
                     <p center>مركز خدمة العملاء</p>
                 </div>
-                <div class="col-5 ">
-                    <div class="img_holder text-center"><img class="mr-auto ml-auto mt-5" src="http://41.33.97.114/serviceprovider/MainImage/logo.png" style="width: 25%;"></div>
+                <div class="col-3 ">
+                    <div class="img_holder text-center"><img class="mr-auto ml-auto mt-3" src="https://i.ibb.co/LYWDCWv/hio-logo.png" style="width: 65%;"></div>
                 </div>
                 <div class="col-4">
-                    <p>تاريخ الطباعة : <span>12345684646554</span></p>
-                    <p>رقم خطاب التحويل : <span>1659</span><span> 10-2022 </span><span> aswan-hio</span></p>
+                    <p><span>تاريخ الطباعة</span><span>12345684646554</span></p>
+                    <p><span>رقم خطاب التحويل</span><span>1659</span><span> 10-2022 </span><span> aswan-hio</span></p>
                     <p>الرسوم المقررة : <span>12</span> جنيه</p>
                     <p>تاريخ اصدار الخطاب : <span>12345684646554</span></p>
                 </div>
@@ -37,25 +57,34 @@
             <hr>
             <div class="row p-2 part1 text-center">
                 <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">بيانات المريض</div>
-                <div class="col-5 first text-right h6 mt-2">
-                    <p><span class="d-inline-block" style="width: 90px;">الاسم </span><span>: {{ letter.name }}</span></p>
-                    <p><span class="d-inline-block" style="">الرقم القومى</span><span> : {{ letter.naId }}</span></p>
-                    <p><span class="d-inline-block" style="width: 85px;">مقرر الاجراء</span><span> : {{ letter.by_doctor }}</span></p>
-                    <p><span class="d-inline-block" style="width: 85px;">التشخيص</span><span> : {{ letter.diagnosis }}</span></p>
-                    <p><span class="d-inline-block" style="width: 85px;">وصف الحالة</span><span> : {{ letter.description }}</span></p>
-                </div>  
-                <div class="col-5 h6">
-                    <p><span class="d-inline-block" style="width: 90px;">قانون الانتفاع </span><span>: {{ letter.law }}</span></p>
-                    <p><span class="d-inline-block" style="">العيادة المحول منها</span><span>{{ letter.ayada }}</span></p>
+                <div class="col-5 first text-right h5 mt-2 border-left">
+                    <p class="font-weight-bold"><span class="d-inline-block" style="width: 200px;">الاسم </span><span class="no-wrap-overflow">{{ letter.name }}</span></p>
+                    <p class="font-weight-bold mb-5 mt-5"><span class="d-inline-block" style="width: 200px">الرقم القومى</span><span>{{ letter.naId }}</span></p>
+                    <p class="font-weight-bold mb-5 mt-5"><span class="d-inline-block" style="width: 200px">مقرر الاجراء</span><span>{{ letter.by_doctor }}</span></p>
+                    <p class="font-weight-bold mb-2 mt-5"><span class="d-inline-block" style="width: 200px;">التشخيص</span><span>{{ letter.diagnosis }}</span></p><br>
                 </div>
+                <div class="col-6 h5 text-right mt-5 mr-4">
+                    <p class="font-weight-bold mt-4"><span class="d-inline-block" style="width: 250px;">قانون الانتفاع </span><span>{{ letter.law }}</span></p>
+                    <p class="font-weight-bold">
+                        <span class="d-inline-block" style="width: 220px">العيادة المحول منها
+                        </span>
+                        <span>{{ letter.ayada }}</span>
+
+                    </p>
+                </div>
+                <p class="row">
+                    <p class="col-12 font-weight-bold text-right h5">
+                        <span class="d-inline-block mb-3" style="width:200px">وصف الحالة</span><span>{{ letter.description }}</span>
+                    </p>
+                </p>
                 <br>
-                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 mt-4 border">
                     <div class="">الخدمة المطلوبة للمريض</div>
                 </div>
-                <div class="col-12 h6 text-right">
-                    <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى :</span></p>
+                <div class="col-12 h4 text-right mb-5">
+                    <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى</span></p>
                     <p><span>{% for service in letter.services.all %} <p class="border p-2">{{ service }}</p> {% endfor %}</span></p>
-                    <p><span class="d-inline-block" style="width: 190px;">وذلك بالجهة</span> : <span>{{ letter.entity }}</span></p>
+                    <p><span class="d-inline-block h3" style="width: 190px;">وذلك بالجهة</span> : <span class="h3">{{ letter.entity }}</span></p>
                 </div>
                 <div class="col-12 text-center">
                     <p>يعتبر الخطاب سارى لمدة شهر من تاريخه</p>
@@ -72,25 +101,18 @@
                 <div class="col-4">
                     <p>الطبيب المراجع</p>
                     <p></p>
-                </div> 
+                </div>
 
+            </div>
+            <div class="row">
+                <div class="col-4 m-auto text-center">
+                    <input type="button" class="w-100 btn btn-danger h2 no-print" onclick="window.print();" value="اضغط للطباعة"/>
+                </div>
             </div>
         </div>
 
     </div>
-    <input type="button" onclick="printDiv('letter_holder')" value="اضغط للطباعة" />
 </body>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
-    function printDiv(divName) {
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-        
-        document.body.dir = "rtl";
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-       }
 </script>

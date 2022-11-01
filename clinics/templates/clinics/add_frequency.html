@@ -5,7 +5,7 @@
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 <p class="h3 m-auto">
-    <span class="badge badge-info w-100 pt-3 pb-3">تردد عيادة {{clinicName}}<br><br> اليوم {% now "d-m-Y" %}</span>
+    <span class="badge badge-info w-100 pt-3 pb-3" style="font-size:72%">تردد عيادة {{clinicName}}<br><br> اليوم {% now "d-m-Y" %}</span>
 </p>
 <div class="pt-4 border">
     <form action="#" method="post" name="frequency" class="form" required>
@@ -16,9 +16,22 @@
                 <span class="d-inline-block h2 w-100">
                     <label class="badge badge-primary w-100 p-3">{{cat}}</label>
                 </span>
-                <p><input value="0"  name="{{cat.id}}" class="text-center form-control custom" placeholder="تردد عيادة {{cat}}"></p>
+                <p class="d-flex">
+                    <input value="0" type="number" name="sp{{cat.id}}" class="text-center form-control custom" placeholder="اخصائى">
+                    <input value="0" type="number" name="ad{{cat.id}}" class="text-center form-control custom" placeholder="استشارى">
+                </p>
             </div>
             {% endfor %}
+            <p class="row text-center h3">
+                <span class="d-block col-md-3 col-sm-6 m-auto">
+                    <label class="d-block badge badge-info w-100 p-3">اجمالى الروشتات</label>
+                    <input value="0" type="number" name="papers" class="text-center form-control custom" placeholder="الروشتات">
+                </span>
+                <span class="d-block col-md-3 col-sm-6 m-auto">
+                    <label class="d-block badge badge-info w-100 p-3">روشتات الاطفال</label>
+                    <input value="0" type="number" name="childPapers" class="text-center form-control custom" placeholder="روشتات الاطفال">
+                </span>
+            </p>
             <div class="col-md-4 col-sm-10 m-auto">
                 <input type="submit" name="frequency_form" class="d-block p-2 w-100  btn btn-danger btn-lg" style="margin-top:32px" value="حفظ">
             </div>

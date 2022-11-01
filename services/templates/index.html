@@ -45,14 +45,24 @@
 
 	<script>
 		// $('#id_services_holder').hide()
+		$('#id_services').chosen();
+		$('#id_entity').chosen();
 		setTimeout(function(){
 		  console.log("testing")
-		  $('#id_services').chosen()
+		  $('#id_services').chosen();
+		  $('#id_entity').chosen();
 		},300)
 		$("#id_services_chosen").width("300px")
+		$(".chosen-container-single .chosen-single").height("55px")
+		$(".chosen-container-single .chosen-single span").css('overflow','visible');
+		$(".chosen-container-single .chosen-single span").css('white-space','pre-wrap');
+		$(".chosen-container-single .chosen-single span").css('font-size','1.3rem');
+		$(".chosen-container-single .chosen-single").css('align-items','center');
+		$(".chosen-container-single .chosen-single").css('justify-content','center');
+		$(".chosen-container-single .chosen-single").css('display','flex');
+
 	  </script>
 	<script src="{% static 'services/js/plugins.js' %}"></script>
-
 
 </body>
 </html>

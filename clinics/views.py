@@ -18,7 +18,10 @@ today_date = datetime.now().date()
 
 
 def erorr_page(request):
-    return HttpResponse("حدثت مشكلة الرجاء التواصل مع المسؤول")
+    default_msg = "حدثت مشكلة الرجاء التواصل مع المسؤول"
+    msg=request.GET.get('msg' , default_msg)
+    ctx = {"msg":msg}
+    return render(request, './clinics/erorr.html', ctx)
 
 def thanks(request):
     user_clinic = request.user.employee.area
@@ -56,7 +59,8 @@ def addFrequency(request):
                 return redirect('/clinics/thanks')
             except Exception as e:
                 print(f"exception {e}")
-                return redirect('/clinics/erorr')
+                msg = e
+                return redirect(f'/clinics/erorr_page?msg={msg}')
     else:
         pass
     categories = Categories_obj
@@ -72,21 +76,35 @@ def profile(request):
     elif user.groups.filter(name="services_member"):
         return redirect('/services/new')
     else:
-        # for testing only untill making the dashboard
-        return redirect('/clinics/addFrequency')
+        msg="user has no group"
+        return redirect(f'/clinics/erorr_page?={msg}')
         # return redirect('/clinics/erorr_page')
 
 #=================== FUNCTIONS PART ============
 def addDataToDailyReport(data,ayada):
     categories = Category.objects.filter(ayada=ayada)
-    print(f"here 2== > ")
     del data['csrfmiddlewaretoken']
     del data['frequency_form']
-    # print(f"here == > ")
     for cat in categories:
-        cat_num = data[str(cat.id)]
+        sp_cat_input = "sp"+str(cat.id)
+        sp_cat_num   = int(data[sp_cat_input])
+        ad_cat_input = "ad"+str(cat.id)
+        ad_cat_num   = int(data[ad_cat_input])
+        papers       = data['papers']
+        childPapers  = data['childPapers']
+        nums = sp_cat_num + ad_cat_num
+        print(f"nums => {nums}")
         created = DailyReport.objects.update_or_create(
             category=cat, ayada=ayada, day=today_date,
-            defaults={"day": today_date, "category":cat, "ayada":ayada, "num":cat_num},
+            defaults={
+                    "day": today_date, "category":cat, "ayada":ayada, "num":nums,
+                    "advisory":ad_cat_num,"specialist":sp_cat_num, "papers":papers,
+                    "childPapers": childPapers
+                },
         )
+    #     specialist = models.IntegerField(verbose_name="حالات الاخصائى", default=0)
+    # advisory   = models.IntegerField(verbose_name="حالات الاستشارى", default=0)
+    # num        = models.IntegerField(verbose_name="الإجمالى", default=0)
+    # papers      = models.IntegerField(verbose_name="إجمالى الروشتات", default=0 )
+    # childPapers      = models.IntegerField(verbose_name="إجمالى روشتات الاطفال", default=0)
     return "done"

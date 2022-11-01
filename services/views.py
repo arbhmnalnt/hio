@@ -18,11 +18,9 @@ def PrintLetter(request, pk):
 def NewLetter(request):
     user = request.user
     if user.groups.filter(name="services_member"):
-        return redirect('/services/new')
-    else:
         pass
-        # for testing only untill making the dashboard
-        # return redirect('/clinics/erorr_page')
+    else:
+        return redirect('/clinics/profile')
     if request.method=='POST':
         form = LetterForm(request.POST)
         if form.is_valid():

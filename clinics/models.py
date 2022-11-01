@@ -28,6 +28,12 @@ class TimeStampMixin(models.Model):
                 return str(self.name)
             else:
                 return str("object")
+        elif hasattr(self, 'specific'):
+            return str(self.specific.name)
+
+        elif hasattr(self, 'category'):
+            return str(self.category)
+
         else:
                 return str("object")
 
@@ -39,14 +45,13 @@ class Category(TimeStampMixin,models.Model):
     specific  = models.ForeignKey('specific', on_delete=models.CASCADE, verbose_name="التخصص")
     ayada = models.ForeignKey('services.Ayadat', related_name='category_ayada', on_delete=models.CASCADE, verbose_name="العيادة")
 
-    def __str__(self):
-        return self.specific.name
 
 class DailyReport(TimeStampMixin,models.Model):
-    day      = models.DateField(auto_now_add=True,null=True, verbose_name="تاريخ اليوم")
-    category = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name="تخصص العيادة")
-    ayada    =models.ForeignKey('services.Ayadat', on_delete=models.CASCADE, verbose_name="العيادة",null=True)
-    num      = models.IntegerField(verbose_name="عدد المترددين")
-
-    def __str__(self):
-        return self.category
+    day        = models.DateField(auto_now_add=True,null=True, verbose_name="تاريخ اليوم")
+    category   = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name="تخصص العيادة")
+    ayada      = models.ForeignKey('services.Ayadat', on_delete=models.CASCADE, verbose_name="العيادة",null=True)
+    specialist = models.IntegerField(verbose_name="حالات الاخصائى", default=0)
+    advisory   = models.IntegerField(verbose_name="حالات الاستشارى", default=0)
+    num        = models.IntegerField(verbose_name="الإجمالى", default=0)
+    papers      = models.IntegerField(verbose_name="إجمالى الروشتات", default=0 )
+    childPapers      = models.IntegerField(verbose_name="إجمالى روشتات الاطفال", default=0)

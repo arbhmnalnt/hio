@@ -44,9 +44,10 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
 	'services',
+    'clinics'
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4' 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +60,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+LOGIN_REDIRECT_URL = '/clinics/profile'
 
 TEMPLATES = [
     {

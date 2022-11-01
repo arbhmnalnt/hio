@@ -1,5 +1,9 @@
 {% extends "index.html" %}
+<style>
+    .body{
 
+    }
+</style>
 {% block title %}<title>خدمة جديدة</title>{% endblock %}
 
 {% block content %}
@@ -20,13 +24,10 @@
               {{ form1.by_doctor|as_crispy_field }}
             </div>
             <hr>
-            <div class="col-4">
+            <div class="col-5">
               {{ form1.law|as_crispy_field }}
             </div>
-            <div class="col-4">
-              {{ form1.by_doctor|as_crispy_field }}
-            </div>
-            <div class="col-4">
+            <div class="col-6">
               {{ form1.ayada|as_crispy_field }}
             </div>
             <hr>
@@ -44,7 +45,7 @@
               <p class="mt-0 mb-0"><label>إختر الخدمة / الخدمات</label></p>
               {{ form1.services }}
             </div>
-            <div class="col-6">
+            <div class="col-6 h4">
               {{ form1.entity|as_crispy_field }}
             </div>
             <hr>
