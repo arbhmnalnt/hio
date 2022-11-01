@@ -1,0 +1,21 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>عيادة {{clinicName}}</title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-12 m-auto text-center">
+        <h2>اختر العيادة</h2>
+    </div>
+    <hr>
+    {% for cl in clinics %}
+        <div class="col-5 col-md-3 col-lg-2 text-center m-2 p-0 h5">
+            <a href="/clinics/m_report/?clinic={{cl.id}}">
+                <p class="d-block badge badge-primary" style=" height: 75%; white-space: pre-wrap; line-height: 1.5rem; ">{{cl.name}}</p>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

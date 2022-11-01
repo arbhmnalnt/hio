@@ -16,6 +16,10 @@ today_date = datetime.now().date()
 # print(f"today date => ", today_date)
 
 
+def generate_m_report(request):
+    clinics = Ayadat.objects.all()
+    ctx = {'clinics':clinics}
+    return render(request, './clinics/generate_report.html', ctx)
 
 def erorr_page(request):
     default_msg = "حدثت مشكلة الرجاء التواصل مع المسؤول"
@@ -42,25 +46,41 @@ def home(request):
 def addFrequency(request):
     user_clinic = request.user.employee.area
     clinicName = user_clinic.name
+    # check if user previously recorded or this is first time
+    user_id = request.user.id
+    user = User.objects.get(pk=user_id)
+    prev_record = DailyReportHistory.objects.filter(day=today_date, user=user).count()
+    if request.method == 'GET':
+        if prev_record >0:
+            msg = "سبق لك تسجيل البيانات من قبل, الرجاء العلم ان تعديل البيانات يتم من خلال المسؤول فقط"
+            return redirect(f'/clinics/erorr_page?msg={msg}')
+        else:
+            pass
+
+
+
     if clinicName == "الكل":
         clinicName = "العيادات"
         Categories_obj = Category.objects.filter(ayada=Ayadat.objects.get(pk=1))
     else :
         Categories_obj = Category.objects.filter(ayada=user_clinic)
     if request.method == 'POST':
+        if prev_record >0:
+            msg = "سبق لك تسجيل البيانات من قبل, الرجاء العلم ان تعديل البيانات يتم من خلال المسؤول فقط"
+            return redirect(f'/clinics/erorr_page?msg={msg}')
+        else:
+           record = DailyReportHistory.objects.create(day=today_date, user=user)
         if 'frequency_form' in request.POST:
-            print(f"request.POST\n ==> {request.POST}")
             frequency_form = request.POST
             try:
-                print(f"here 1== > ")
                 formDict = frequency_form.dict()
                 status = addDataToDailyReport(formDict,user_clinic)
-                print(f"statue => {status}")
                 return redirect('/clinics/thanks')
             except Exception as e:
                 print(f"exception {e}")
                 msg = e
                 return redirect(f'/clinics/erorr_page?msg={msg}')
+
     else:
         pass
     categories = Categories_obj
@@ -101,10 +121,6 @@ def addDataToDailyReport(data,ayada):
                     "advisory":ad_cat_num,"specialist":sp_cat_num, "papers":papers,
                     "childPapers": childPapers
                 },
-        )
-    #     specialist = models.IntegerField(verbose_name="حالات الاخصائى", default=0)
-    # advisory   = models.IntegerField(verbose_name="حالات الاستشارى", default=0)
-    # num        = models.IntegerField(verbose_name="الإجمالى", default=0)
-    # papers      = models.IntegerField(verbose_name="إجمالى الروشتات", default=0 )
-    # childPapers      = models.IntegerField(verbose_name="إجمالى روشتات الاطفال", default=0)
+            )
+
     return "done"

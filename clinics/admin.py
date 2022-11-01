@@ -5,6 +5,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 # Register your models here.
 
+class DailyReportHistoryAdmin(admin.ModelAdmin):
+    list_display = ('day', 'user')
 
 class SpecificAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)
@@ -18,6 +20,7 @@ class DailyReportAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['day', 'ayada__name']
     list_display = ('day','category','ayada','specialist','advisory','papers', 'childPapers','num')
 
+admin.site.register(DailyReportHistory, DailyReportHistoryAdmin)
 admin.site.register(specific, SpecificAdmin)
 
 admin.site.register(Category, CategoryAdmin)
