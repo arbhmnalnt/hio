@@ -3,6 +3,8 @@ from sre_parse import CATEGORIES
 from unicodedata import category
 from django.shortcuts import HttpResponse, HttpResponseRedirect, redirect, render
 from django.urls import is_valid_path, reverse
+from django.views.generic.list import ListView
+
 
 # from symbol import pass_stmt
 from .forms import *
@@ -15,11 +17,47 @@ from django.contrib.auth.models import Group
 today_date = datetime.now().date()
 # print(f"today date => ", today_date)
 
+# الفترة المسائية عيادتان
+def m_report(request):
+    date = request.POST.get('date', today_date)
+    ayada1 = Ayadat.objects.get(pk=16)
+    ayada2 = Ayadat.objects.get(pk=17)
+    cats1 = list(Category.objects.filter(ayada=ayada1))
+    cats2 = Category.objects.filter(ayada=ayada2)
+    stCats = cats2
+    dailyReport1 = getNums(stCats, cats1)
+    dailyReport2 = getNums(stCats, cats2)
 
-def generate_m_report(request):
-    clinics = Ayadat.objects.all()
-    ctx = {'clinics':clinics}
-    return render(request, './clinics/generate_report.html', ctx)
+    totalNum1 = getTotal(cats1, date)
+    totalNum2 = getTotal(cats1, date)
+    ctx = {'ayada1':ayada1,'ayada2':ayada2,'cats1':cats1 , 'cats2':cats2, 'date':date, 'totalNum1':totalNum1, 'totalNum2':totalNum2,
+    'dailyReport1': dailyReport1, 'dailyReport2': dailyReport1}
+    return render(request, './clinics/mreport.html', ctx)
+
+
+def daily_record(request):
+    user = request.user
+    if user.groups.filter(name="clinic_supervisor"):
+        pass
+    else:
+        msg = "لا تملك صلاحية الوصول لهذه الصفحة , الرجاء التواص مع المسؤول"
+        return redirect(f'/clinics/erorr_page?msg={msg}')
+    records = DailyReportHistory.objects.all()
+    ctx = {'records':records}
+    return render(request, './clinics/daily_record.html', ctx)
+
+
+@login_required
+def admin(request):
+    user = request.user
+    if user.groups.filter(name="clinic_admin"):
+        ayadat = Ayadat.objects.all()
+        ctx={'ayadat':ayadat}
+    else:
+        msg = "لا تملك صلاحية الوصول لهذه الصفحة , الرجاء التواص مع المسؤول"
+        return redirect(f'/clinics/erorr_page?msg={msg}')
+
+    return render(request, './clinics/admin_clinic.html', ctx)
 
 def erorr_page(request):
     default_msg = "حدثت مشكلة الرجاء التواصل مع المسؤول"
@@ -85,7 +123,6 @@ def addFrequency(request):
         pass
     categories = Categories_obj
     ctx = {"clinicName":clinicName, "categories":categories}
-
     return render(request, './clinics/add_frequency.html', ctx)
 
 
@@ -101,6 +138,19 @@ def profile(request):
         # return redirect('/clinics/erorr_page')
 
 #=================== FUNCTIONS PART ============
+
+
+def getTotal(cats, date):
+    total = 0
+    for cat in cats:
+        report = DailyReport.objects.filter(category=cat, day=date)
+        if report.count() == 0:
+            break
+        else:
+            nums = report.num
+            total += nums
+    return total
+
 def addDataToDailyReport(data,ayada):
     categories = Category.objects.filter(ayada=ayada)
     del data['csrfmiddlewaretoken']

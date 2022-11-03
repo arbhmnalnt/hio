@@ -1,9 +1,49 @@
-{% extends "clinics/index.html" %}
+{% extends "clinics/main_report_template.html" %}
 
-{% block title %}<title>عيادة {{clinicName}}</title>{% endblock %}
+{% block title %}<title>العيادات المسائية</title>{% endblock %}
 
 {% block content %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
+<div class="row mt-2">
+    <div class="col-6 text-center m-auto h4 p-2"><p class="badge badge-info w-100">نموذج الإحصائية المسائية </p></div>
+</div>
+<!--start the table-->
+{{cats1.0}}
+<div class="row">
 
+    <div class="col-11 m-auto">
+        <table class="table table-hover text-center table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">العيادة</th>
+                <th scope="col">اجمالى التردد</th>
+                {% for cat in cats2 %}
+                <th scope="col" id="{{cat.specific.id}}">{{cat.specific.name}}</th>
+                {% endfor %}
+                <th scope="row">خدمة العملاء</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{ayada1.name}}</th>
+                <td>{{totalNum1}}</td>
+                {% for x in dailyReport1 %}
+                <td>{{ x }}</td>
+                {% endfor %}
+                <td>خدمة عملاء</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ayada2.name}}</th>
+                <td>{{totalNum2}}</td>
+                {% for cat in cats2 %}
+                <td>{{cat.specific.name}}</td>
+                {% endfor %}
+                <td>خدمة عملاء</td>
+            </tr>
+
+        </tbody>
+    </table>
+    </div>
+</div>
 {% endblock %}

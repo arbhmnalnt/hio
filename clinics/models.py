@@ -59,4 +59,4 @@ class DailyReport(TimeStampMixin,models.Model):
 
 class DailyReportHistory(models.Model):
     day        = models.DateField(auto_now_add=True, verbose_name="تاريخ اليوم")
-    user       = models.OneToOneField(User, on_delete=models.CASCADE)
+    user       = models.ForeignKey(User, on_delete=models.CASCADE)

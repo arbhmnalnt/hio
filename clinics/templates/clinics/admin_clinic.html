@@ -1,0 +1,32 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>ادمن العيادة</title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<h2 class="text-center pt-3 pb-3">
+    <span class="badge badge-danger p-3">صفحة أدمن العيادات</span>
+</h2>
+
+<div class="row text-center border p-5">
+    <div class="col-6">
+        <label>اختر العيادة</label>
+        <select id="ayada_select">
+            <option selected disabled>إختر العيادة</option>
+            {% for ayada in ayadat %}
+            <option value="{{ayada.id}}">{{ayada.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-6">
+        <a class="btn btn-primary" href="#" id="report_href">صفحة التقرير</a>
+    </div>
+</div>
+<div class="row text-center border m-2 p-2">
+    <div class="col-3">
+        <a class="btn btn-info" href="/clinics/daily_record">سجل الإدخال</a>
+    </div>
+</div>
+
+{% endblock %}

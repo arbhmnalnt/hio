@@ -1,0 +1,28 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>سجل الادخال </title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-10 m-auto text-center">
+        <table class="table table-bordered .table-hover">
+            <thead>
+                <tr scope="col">
+                    <th>اسم المستخدم</th>
+                    <th>تاريخ الادخال</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{record.user}}</td>
+                    <td>{{record.day}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

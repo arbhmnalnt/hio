@@ -4,7 +4,7 @@
 {% block content %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
-<p class="h3 m-auto">
+<p class="h4 m-auto">
     <span class="badge badge-info w-100 pt-3 pb-3" style="font-size:72%">تردد عيادة {{clinicName}}<br><br> اليوم {% now "d-m-Y" %}</span>
 </p>
 <div class="pt-4 border">
@@ -13,7 +13,7 @@
         <div class="cats_holder row">
             {% for cat in categories %}
             <div class="col-md-3 col-sm-6 mr-auto ml-auto border-bottom mb-2">
-                <span class="d-inline-block h2 w-100">
+                <span class="d-inline-block h4 w-100">
                     <label class="badge badge-primary w-100 p-3">{{cat}}</label>
                 </span>
                 <p class="d-flex">
@@ -22,7 +22,7 @@
                 </p>
             </div>
             {% endfor %}
-            <p class="row text-center h3">
+            <p class="row text-center h5">
                 <span class="d-block col-md-3 col-sm-6 m-auto">
                     <label class="d-block badge badge-info w-100 p-3">اجمالى الروشتات</label>
                     <input value="0" type="number" name="papers" class="text-center form-control custom" placeholder="الروشتات">
