@@ -28,6 +28,17 @@
         overflow:visible;
         white-space:nowrap;
     }
+
+    .td-custom{
+        align-items: center;
+        align-content: center;
+        display: flex;
+        text-align: center;
+        width: 400%;
+    }
+    .custom-header-p span{
+        display:inline-block;
+    }
   </style>
 
 </head>
@@ -37,8 +48,8 @@
 
     <div class="letter_holder  text-center" id="letter_holder" style="direction: rtl;">
         <div class="holder p-5 border" style="font-weight:700">
-            <div class="row border p-2 header">
-                <div class="col-4 text-center">
+            <div class="row border-normal p-2 header">
+                <div class="col-3 text-center">
                     <br>
                     <p>الهيئة العامة للتأمين الصحى</p>
                     <p center>فرع اسوان</p>
@@ -47,66 +58,106 @@
                 <div class="col-3 ">
                     <div class="img_holder text-center"><img class="mr-auto ml-auto mt-3" src="https://www.hiocairo.com/images/mlogo.png" style="width: 65%;"></div>
                 </div>
-                <div class="col-4">
-                    <p><span>تاريخ الطباعة</span><span>12345684646554</span></p>
-                    <p><span>رقم خطاب التحويل</span><span>1659</span><span> 10-2022 </span><span> aswan-hio</span></p>
-                    <p>الرسوم المقررة : <span>12</span> جنيه</p>
-                    <p>تاريخ اصدار الخطاب : <span>12345684646554</span></p>
+                <div class="col-6 row pt-4">
+                    <p class="col-5 custom-header-p">
+                        <span>تاريخ الطباعة</span>
+                        <span>رقم خطاب التحويل</span>
+                        <span>الرسوم المقررة</span>
+                        <span>تاريخ اصدار الخطاب</span>
+                    </p>
+                    <div class="col-6 custom-header-p">
+                        <span class="d-block">{{today_date}} / 2022-11-08</span>
+                        <span class="d-block"><span class="id">HIO_Aswan/</span> 20145{{letter_serial}}-{{letter.id}}</span>
+                        <span class="d-block">{{letter.price}} جنيه</span>
+                        <span class="d-block">{{letter.created_at_date|date:"d - m - Y"}}</span>
+                    </div>
                 </div>
             </div>
             <hr>
-            <div class="row p-2 part1 text-center">
-                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border">بيانات المريض</div>
-                <div class="col-5 first text-right h5 mt-2 border-left">
-                    <p class="font-weight-bold"><span class="d-inline-block" style="width: 200px;">الاسم </span><span class="no-wrap-overflow">{{ letter.name }}</span></p>
-                    <p class="font-weight-bold mb-5 mt-5"><span class="d-inline-block" style="width: 200px">الرقم القومى</span><span>{{ letter.naId }}</span></p>
-                    <p class="font-weight-bold mb-5 mt-5"><span class="d-inline-block" style="width: 200px">مقرر الاجراء</span><span>{{ letter.by_doctor }}</span></p>
-                    <p class="font-weight-bold mb-2 mt-5"><span class="d-inline-block" style="width: 200px;">التشخيص</span><span>{{ letter.diagnosis }}</span></p><br>
-                </div>
-                <div class="col-6 h5 text-right mt-5 mr-4">
-                    <p class="font-weight-bold mt-4"><span class="d-inline-block" style="width: 250px;">قانون الانتفاع </span><span>{{ letter.law }}</span></p>
-                    <p class="font-weight-bold">
-                        <span class="d-inline-block" style="width: 220px">العيادة المحول منها
-                        </span>
-                        <span>{{ letter.ayada }}</span>
-
-                    </p>
-                </div>
-                <p class="row">
-                    <p class="col-12 font-weight-bold text-right h5">
-                        <span class="d-inline-block mb-3" style="width:200px">وصف الحالة</span><span>{{ letter.description }}</span>
-                    </p>
-                </p>
+            <div class="row p-2 part1 text-center border-normal">
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border-normal">بيانات المريض</div>
+                <table class="table col-12 border-normal table-bordered" style="font-size:1.2rem">
+                    <tbody>
+                        <tr>
+                            <td class="w-50">
+                                <span class="d-inline-block" style="width:25%">الاسم</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.name }}</span>
+                            </td>
+                            <td>
+                                <span class="d-inline-block" style="width:25%">مقرر الإجراء</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.by_doctor }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="d-inline-block" style="width:25%">الرقم القومى</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.naId }}</span>
+                            </td>
+                            <td>
+                                <span class="d-inline-block" style="width:25%">قانون الانتفاع</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.law}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="d-inline-block" style="width:25%">مقرر الإجراء</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.by_doctor  }}</span>
+                            </td>
+                            <td>
+                                <span class="d-inline-block" style="width:25%">العيادة المحول منها</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.ayada }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="d-inline-block" style="width:25%">التشخيص</span>
+                                <span class="d-inline-block" style="width:50%">{{ letter.diagnosis  }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-custom">
+                                <span class="d-inline-block" style="width:27%">وصف الحالة</span>
+                                <span class="d-inline-block text-right" style="width:200%">{{ letter.description }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <br>
-                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 mt-4 border">
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 mt-4 border-normal">
                     <div class="">الخدمة المطلوبة للمريض</div>
                 </div>
-                <div class="col-12 h4 text-right mb-5">
+                <div class="col-12 h4 text-right mb-5 border-normal">
                     <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى</span></p>
-                    <p><span>{% for service in letter.services.all %} <p class="border p-2">{{ service }}</p> {% endfor %}</span></p>
+                    <p><span>{% for service in letter.services.all %} <p class="border-normal p-2">{{ service }}</p> {% endfor %}</span></p>
                     <p><span class="d-inline-block h3" style="width: 190px;">وذلك بالجهة</span> : <span class="h3">{{ letter.entity }}</span></p>
                 </div>
                 <div class="col-12 text-center">
                     <p>يعتبر الخطاب سارى لمدة شهر من تاريخه</p>
                 </div>
                 <hr>
-                <div class="col-4">
-                    <p>مسئول التسجيل</p>
-                    <p>{{request.user.first_name}} {{request.user.last_name}}</p>
+                <div class="col-12 row h4">
+                    <div class="col-4 d-inline-block">
+                        <p>مسئول التسجيل</p>
+                        <p>{{request.user.first_name}} {{request.user.last_name}}</p>
+                    </div>
+                    <div class="col-4 d-inline-block">
+                        <p>خاتم شعار الجمهورية</p>
+                        <p></p>
+                    </div>
+                    <div class="col-4 d-inline-block">
+                        <p>الطبيب المراجع</p>
+                        <p></p>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <p>خاتم شعار الجمهورية</p>
-                    <p></p>
-                </div>
-                <div class="col-4">
-                    <p>الطبيب المراجع</p>
-                    <p></p>
-                </div>
-
             </div>
             <div class="row">
                 <div class="col-4 m-auto text-center">
                     <input type="button" class="w-100 btn btn-danger h2 no-print" onclick="window.print();" value="اضغط للطباعة"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 m-auto text-center">
+                    <a href="/services/new/"  class="w-100 btn btn-primary p-3 h2 no-print">خطاب جديد</a>
                 </div>
             </div>
         </div>

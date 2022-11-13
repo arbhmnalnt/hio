@@ -52,6 +52,8 @@
 		  $('#id_services').chosen();
 		  $('#id_entity').chosen();
 		},300)
+
+
 		$("#id_services_chosen").width("300px")
 		$(".chosen-container-single .chosen-single").height("55px")
 		$(".chosen-container-single .chosen-single span").css('overflow','visible');
@@ -60,7 +62,23 @@
 		$(".chosen-container-single .chosen-single").css('align-items','center');
 		$(".chosen-container-single .chosen-single").css('justify-content','center');
 		$(".chosen-container-single .chosen-single").css('display','flex');
+		$("#id_entity_chosen").click(function(){
+		    $(".chosen-container .chosen-results li").css('font-size','1.1rem');
+		    $(".chosen-container .chosen-results li").css('border-bottom','1px solid #706d6d');
+		})
 
+
+        $("#div_id_description textarea").attr('rows','1');
+        $("#div_id_description textarea").attr('style','white-space: pre-wrap;');
+
+        $("#id_ayada option:eq(1)").attr('selected', true);
+
+
+        $("input#id_created_by").attr('value', $("input#created_by").val())
+        $("input#id_created_by").attr('readonly', 'readonly')
+
+        $("input#id_serial").attr('value', $("input#randNum").val())
+        $("input#id_serial").attr('readonly', 'readonly')
 	  </script>
 	<script src="{% static 'services/js/plugins.js' %}"></script>
 

@@ -45,9 +45,10 @@ class Category(TimeStampMixin,models.Model):
     specific  = models.ForeignKey('specific', on_delete=models.CASCADE, verbose_name="التخصص")
     ayada = models.ForeignKey('services.Ayadat', related_name='category_ayada', on_delete=models.CASCADE, verbose_name="العيادة")
 
+from datetime import date
 
 class DailyReport(TimeStampMixin,models.Model):
-    day        = models.DateField(auto_now_add=True,null=True, verbose_name="تاريخ اليوم")
+    day        = models.DateField(default=date.today, verbose_name="تاريخ اليوم")
     category   = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name="تخصص العيادة")
     ayada      = models.ForeignKey('services.Ayadat', on_delete=models.CASCADE, verbose_name="العيادة",null=True)
     specialist = models.IntegerField(verbose_name="حالات الاخصائى", default=0)

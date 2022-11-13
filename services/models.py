@@ -71,7 +71,7 @@ class ServiceSubClass(TimeStampMixin,models.Model):
 
 
 class Service(TimeStampMixin,models.Model):
-    name      = models.CharField(max_length=100, default='-', verbose_name='اسم الخدمة', db_index=True)
+    name      = models.CharField(max_length=250, default='-', verbose_name='اسم الخدمة', db_index=True)
     mainClass = models.ForeignKey('ServiceMainClass', related_name='service_main', on_delete=models.CASCADE, verbose_name="التصنيف الرئيسى",null=True, db_index=True)
     subClass  = models.ForeignKey('ServiceSubClass', related_name='service_sub', on_delete=models.CASCADE, verbose_name="التصنيف الفرعى",null=True, db_index=True)
     code      = models.IntegerField(unique=True,null=True, db_index=True)
@@ -83,14 +83,15 @@ class EntityService(TimeStampMixin,models.Model):
 
 class Letter(TimeStampMixin,models.Model):
     # first part  patient info
+    serial      = models.IntegerField(db_index=True, unique=True, null=True)
     name        = models.CharField(max_length=50, verbose_name="اسم المريض ثلاثى", db_index=True)
     naId        = models.CharField(max_length=14, verbose_name="الرقم القومى", db_index=True)
     by_doctor   = models.CharField(max_length=50, verbose_name="مقرر الإجراء") # doctor
     law         = models.ForeignKey('Law', related_name='letter_law', on_delete=models.CASCADE, verbose_name="قانون الانتفاع")
     ayada       = models.ForeignKey('Ayadat', related_name='letter_law', on_delete=models.CASCADE, verbose_name="العيادة المحول منها")
-    diagnosis   = models.CharField(max_length=50, default="-", verbose_name="التشخيص") # التشخيص
+    diagnosis   = models.CharField(max_length=50, default=" ", verbose_name="التشخيص") # التشخيص
 
-    description = models.TextField(max_length=250, default="-", verbose_name="وصف الحالة")
+    description = models.TextField(max_length=250, default=" ", verbose_name="وصف الحالة")
 
     # second part  services info
     price       = models.IntegerField(default=0, verbose_name="الرسوم المقررة")

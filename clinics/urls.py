@@ -5,6 +5,7 @@ app_name = "clinics"
 
 urlpatterns = [
 	path('', home),
+	path('login', login),
 	path('profile/', profile, name='profile'),
 	path('addFrequency/', addFrequency, name="addFrequency"),
 	path('thanks/', thanks, name="thanks"),

@@ -5,7 +5,6 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 # Register your models here.
 
-
 class EmployeeInline(admin.StackedInline):
     model = Employee
     can_delete = False
@@ -27,6 +26,7 @@ class EntitySubClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)
 
 class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    search_field = ('id','name', 'naID', 'serial')
     list_display = ('name','naId','get_services', 'entity','created_at_date', 'created_by')
 
     def get_queryset(self, request):
@@ -38,6 +38,8 @@ class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 class ServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name', 'get_mainClass_name', 'get_subClass_name', 'code', 'price')
+    search_fields = ['name', 'mainClass__name', 'subClass__name']
+
 
     def get_mainClass_name(self, obj):
         return obj.mainClass.name
@@ -71,6 +73,9 @@ class LawAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class AreaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)
 
+class ServiceSubClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name',)
+
 class EntityServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('get_entity_name', 'get_services')
 
@@ -87,11 +92,11 @@ class EntityServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-admin.site.register(EntityMainClass, EntityMainClassAdmin)
-admin.site.register(EntitySubClass, EntitySubClassAdmin)
+admin.site.register(EntityMainClass  ,EntityMainClassAdmin)
+admin.site.register(EntitySubClass   ,EntitySubClassAdmin)
 admin.site.register(ServiceMainClass ,ServiceMainClassAdmin)
-admin.site.register(ServiceSubClass ,ServiceSubClassAdmin)
-admin.site.register(EntityService ,EntityServiceAdmin)
+admin.site.register(ServiceSubClass  ,ServiceSubClassAdmin)
+admin.site.register(EntityService    ,EntityServiceAdmin)
 
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Law, LawAdmin)

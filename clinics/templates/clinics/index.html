@@ -26,8 +26,10 @@
 			</nav>
 			<a class="btn btn-outline-primary mb-4 mb-md-0 mb-lg-0" href="#">مرحبا  {{ request.user.username }}</a>
 			<a class="btn btn-warning mr-3 text-white h6" href="/accounts/logout">تسجيل الخروج</a>
+			{% if userGroup == "clinic_supervisor" or userGroup == "clinic_admin" %}
 			<a class="btn btn-danger mr-3 text-white h6" href="/clinics/daily_record">التسجيل اليومى</a>
-
+			{% endif %}
+            <a class="btn btn-danger" href="/accounts/login/">فى حالة حدوث مشكلة اضغط هنا</a>
 		</div>
 	<div class="col-12 col-md-10 col-xl-10 text-center mr-auto ml-auto mb-5">
 	{% block content %}{% endblock %}
@@ -49,21 +51,6 @@
 
 	<script src="{% static 'clinics/js/plugins.js' %}"></script>
 	<script>
-	    let url = window.location.href
-        if(url.includes("erorr_page")){
-            setTimeout(function(){
-                Swal.fire(
-                  'حدثت مشكلة',
-                  'الرجاء التواصل مع المسؤول',
-                  'error'
-                )
-            },500)
-        }
-        else{
-
-        }
-
-
 	    $("input.form-control").click(function(){
 	        $(this).attr('value', '')
 	    })
