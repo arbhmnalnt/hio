@@ -1,9 +1,9 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-
+    <p class="btn btn-danger">{{message}}</p>
   {% if form.errors %}
-    <p class="btn btn-danger">خطأ بإسم المستخدم أو كلمة السر .</p>
+    <p class="btn btn-danger">{{message}}</p>
   {% endif %}
 
   {% if next %}
@@ -22,7 +22,6 @@
 <div class="row">
     <div class="account_form_holder col-6 mr-auto ml-auto border text-center pt-3 h5" style="border-radius: 5%;background-color: #dae7ff;font-weight: 700;">
         <form method="post" action="/clinics/login">
-            {% csrf_token %}
             <div class="">
                 <label for="id_username">اسم المستخدم</label>
                 <input type="text" class="form-control text-center" name="username" value="" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="required" id="id_username">

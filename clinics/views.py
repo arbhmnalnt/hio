@@ -13,14 +13,31 @@ from services.models import *
 from django.contrib.auth.decorators import login_required
 from datetime import *
 from django.contrib.auth.models import Group
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login as auth_login
+
 
 today_date = datetime.now().date()
 # print(f"today date => ", today_date)
 
 @csrf_exempt
 def login(request):
+    message = ''
+    if request.method == 'POST':
+        username=request.POST['username']
+        password = request.POST['password']
+        user = authenticate(
+            username=username,
+            password=password
+        )
 
-    return render(request, './clinics/login.html)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('/clinics/profile')
+            # message = f'Hello {user.username}! You have been logged in'
+        else:
+            message = 'Login failed!'
+    return render(request, 'clinics/login.html', context={'message': message})
 
 # الفترة المسائية عيادتان
 def m_report(request):

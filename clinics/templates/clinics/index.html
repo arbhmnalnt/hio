@@ -29,7 +29,6 @@
 			{% if userGroup == "clinic_supervisor" or userGroup == "clinic_admin" %}
 			<a class="btn btn-danger mr-3 text-white h6" href="/clinics/daily_record">التسجيل اليومى</a>
 			{% endif %}
-            <a class="btn btn-danger" href="/accounts/login/">فى حالة حدوث مشكلة اضغط هنا</a>
 		</div>
 	<div class="col-12 col-md-10 col-xl-10 text-center mr-auto ml-auto mb-5">
 	{% block content %}{% endblock %}
@@ -58,7 +57,7 @@
 	    $("input[type='submit']").click(function(){
 	        Swal.fire(
               'تم',
-              'جارى حفظ البيانات',
+              'رجاء الانتظار, جارى حفظ البيانات',
               'success'
             )
 	    })
