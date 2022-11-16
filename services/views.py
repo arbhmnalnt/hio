@@ -3,7 +3,6 @@ from django.urls import is_valid_path, reverse
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
-today_date =
 
 
 def home(request):
