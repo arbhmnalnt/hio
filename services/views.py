@@ -3,7 +3,7 @@ from django.urls import is_valid_path, reverse
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
-
+today_date =
 
 
 def home(request):
@@ -11,7 +11,7 @@ def home(request):
 
 def PrintLetter(request, pk):
 	letter = Letter.objects.get(id=pk)
-	ctx = {'letter':letter}
+	ctx = {'letter':letter, 'today_date':today_date}
 	return render(request,'services/print_letter.html',ctx)
 
 import random

@@ -49,13 +49,13 @@
     <div class="letter_holder  text-center" id="letter_holder" style="direction: rtl;">
         <div class="holder p-5 border" style="font-weight:700">
             <div class="row border-normal p-2 header">
-                <div class="col-3 text-center">
+                <div class="col-4 text-center">
                     <br>
                     <p>الهيئة العامة للتأمين الصحى</p>
                     <p center>فرع اسوان</p>
                     <p center>مركز خدمة العملاء</p>
                 </div>
-                <div class="col-3 ">
+                <div class="col-2 mt-4">
                     <div class="img_holder text-center"><img class="mr-auto ml-auto mt-3" src="https://www.hiocairo.com/images/mlogo.png" style="width: 65%;"></div>
                 </div>
                 <div class="col-6 row pt-4">
@@ -65,9 +65,9 @@
                         <span>الرسوم المقررة</span>
                         <span>تاريخ اصدار الخطاب</span>
                     </p>
-                    <div class="col-6 custom-header-p">
-                        <span class="d-block">{{today_date}} / 2022-11-08</span>
-                        <span class="d-block"><span class="id">HIO_Aswan/</span> 20145{{letter_serial}}-{{letter.id}}</span>
+                    <div class="col-7 custom-header-p">
+                        <span class="d-block">{{letter.created_at_date|date:"d - m - Y"}}</span>
+                        <span class="d-block" style="font-size:15px"><span class="id">HIO_Aswan/</span> 20145{{letter_serial}}-{{letter.id}}</span>
                         <span class="d-block">{{letter.price}} جنيه</span>
                         <span class="d-block">{{letter.created_at_date|date:"d - m - Y"}}</span>
                     </div>
