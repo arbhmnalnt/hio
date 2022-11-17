@@ -64,7 +64,7 @@ def daily_record(request):
     else:
         msg = "لا تملك صلاحية الوصول لهذه الصفحة , الرجاء التواص مع المسؤول"
         return redirect(f'/clinics/erorr_page?msg={msg}')
-    records = DailyReportHistory.objects.all().order_by('-day')
+    records = DailyReportHistory.objects.all()
     ctx = {'records':records}
     return render(request, './clinics/daily_record.html', ctx)
 
