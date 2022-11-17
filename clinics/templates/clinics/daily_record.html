@@ -18,7 +18,7 @@
                 {% for record in records %}
                 <tr>
                     <td>{{record.user}}</td>
-                    <td>{{record.day}}</td>
+                    <td>{{record.day|date:"d - m - Y"}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -76,12 +76,12 @@
             <hr>
             <div class="row p-2 part1 text-center border-normal">
                 <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border-normal">بيانات المريض</div>
-                <table class="table col-12 border-normal table-bordered" style="font-size:1.2rem">
+                <table class="table col-12 border-normal table-bordered" rules="none" style="font-size:1.2rem">
                     <tbody>
                         <tr>
                             <td class="w-50">
                                 <span class="d-inline-block" style="width:25%">الاسم</span>
-                                <span class="d-inline-block" style="width:50%">{{ letter.name }}</span>
+                                <span class="d-inline-block" style="width:65%">{{ letter.name }}</span>
                             </td>
                             <td>
                                 <span class="d-inline-block" style="width:25%">مقرر الإجراء</span>
@@ -94,18 +94,18 @@
                                 <span class="d-inline-block" style="width:50%">{{ letter.naId }}</span>
                             </td>
                             <td>
-                                <span class="d-inline-block" style="width:25%">قانون الانتفاع</span>
+                                <span class="d-inline-block" style="width:30%">قانون الانتفاع</span>
                                 <span class="d-inline-block" style="width:50%">{{ letter.law}}</span>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <span class="d-inline-block" style="width:25%">مقرر الإجراء</span>
-                                <span class="d-inline-block" style="width:50%">{{ letter.by_doctor  }}</span>
+                                <span class="d-inline-block" style="width:75%">العيادة المحول منها</span>
+                                <span class="d-inline-block" style="width:25%"></span>
                             </td>
                             <td>
-                                <span class="d-inline-block" style="width:25%">العيادة المحول منها</span>
-                                <span class="d-inline-block" style="width:50%">{{ letter.ayada }}</span>
+                                <span class="d-inline-block" style="width:75%">{{ letter.ayada }}</span>
+                                <span class="d-inline-block" style="width:25%"></span>
                             </td>
                         </tr>
                         <tr>
@@ -123,9 +123,6 @@
                     </tbody>
                 </table>
                 <br>
-                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 mt-4 border-normal">
-                    <div class="">الخدمة المطلوبة للمريض</div>
-                </div>
                 <div class="col-12 h4 text-right mb-5 border-normal">
                     <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى</span></p>
                     <p><span>{% for service in letter.services.all %} <p class="border-normal p-2">{{ service }}</p> {% endfor %}</span></p>

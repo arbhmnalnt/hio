@@ -10,7 +10,7 @@ def home(request):
 
 def PrintLetter(request, pk):
 	letter = Letter.objects.get(id=pk)
-	ctx = {'letter':letter, 'today_date':today_date}
+	ctx = {'letter':letter}
 	return render(request,'services/print_letter.html',ctx)
 
 import random

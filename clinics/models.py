@@ -58,6 +58,6 @@ class DailyReport(TimeStampMixin,models.Model):
     childPapers      = models.IntegerField(verbose_name="إجمالى روشتات الاطفال", default=0)
 
 
-class DailyReportHistory(models.Model):
+class DailyReportHistory(TimeStampMixin,models.Model):
     day        = models.DateField(auto_now_add=True, verbose_name="تاريخ اليوم")
     user       = models.ForeignKey(User, on_delete=models.CASCADE)

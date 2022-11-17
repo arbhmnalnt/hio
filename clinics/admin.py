@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 # Register your models here.
 
 class DailyReportHistoryAdmin(ExportActionMixin, admin.ModelAdmin):
-    list_display = ('day', 'user')
+    list_display = ('day', 'user', 'created_at')
 
 class SpecificAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)
