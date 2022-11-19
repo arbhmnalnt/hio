@@ -62,6 +62,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'project.urls'
 LOGIN_REDIRECT_URL = '/clinics/profile'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -128,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Egypt'
 
 USE_I18N = True
 
@@ -145,7 +146,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-localPath = "/hio_project_holder/hio_project"
+# localPath = "/home/hio/hio_project"
+localPath = "/theWebsiteProject/hio_project"
+
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = localPath +'/media/'
@@ -155,3 +158,5 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+LOGIN_URL = '/clinics/login'

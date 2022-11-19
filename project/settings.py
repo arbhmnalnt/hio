@@ -82,21 +82,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 # variables to be changed to work on localhost or online in pythonanywhere
-dataBaseName = "test"
-dataBaseUser = "hio"
-password     = "vr^*6QgT"
-host         = "hio.mysql.pythonanywhere-services.com"
+dataBaseName = "hio"
+dataBaseUser = "root"
+password     = "123456"
+host         = "127.0.0.1"
+port         = "3306"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hio$hio',
-        'USER': 'hio',
-        'PASSWORD': 'vr^*6QgT',
-        'HOST': "hio.mysql.pythonanywhere-services.com",
-        'PORT':'3306',
+        'NAME': dataBaseName,
+        'USER': dataBaseUser,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
         'OPTIONS': {
             'sql_mode': 'traditional',
         }
@@ -128,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Egypt'
 
 USE_I18N = True
 
@@ -145,7 +146,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-localPath = "/home/hio/hio_project"
+# localPath = "/home/hio/hio_project"
+localPath = "/theWebsiteProject/hio_project"
+
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = localPath +'/media/'
