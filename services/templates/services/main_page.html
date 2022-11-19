@@ -1,0 +1,93 @@
+{% extends "index.html" %}
+{% block title %}<title>الرئيسية</title>{% endblock %}
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<style>
+    input.nid-input{
+        width: 90%;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px;
+        border-radius: 5%;
+        background: #e6eafb;
+    }
+
+    input.nid-input:hover{
+        border-color: #719ECE  ;
+    }
+
+    input.nid-input:focus{
+        outline-color: #719ECE;
+    }
+    .btn{
+        font-size: 1.5rem;
+    }
+</style>
+<div class="row mt-5">
+    <div class="col-10 text-center m-auto">
+        <form class="form" action="/services/" method="post" required>
+            <div class="nid-holder">
+                    {% csrf_token %}
+                    <label for="naId"></label>
+                    <input value="{{naId}}" class="nid-input" id="naId" name="naId" type="text" maxlength="14" minlength="14" required
+                    placeholder="الرقم القومى">
+                    <br>
+            </div>
+            <div class="mt-5">
+                    <input class="btn btn-warning text-white d-100 p-2 h1 ml-5" id="search" type="submit" value="بحث عن منتفع">
+                    <a class="btn btn-info d-100 p-2 h1" id="newLetterLink" href="">خطاب تحويل جديد</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row text-center mt-5">
+    <div class="col-11 m-auto text-danger">
+        <h3 class="h3">
+            {% if msg %}
+            {{msg}}
+            <hr>
+            <div class="table-holder"></div>
+                <table class="table text-center h5 table-responsive table-bordered table-hovered">
+                    <thead>
+                        <tr class="bg-dark text-white">
+                            <th>أمر 1</th>
+                            <th>أمر 2</th>
+                            <th>اسم المنتفع</th>
+                            <th>رقم خطاب التحويل</th>
+                            <th>تاريخ التحويل</th>
+                            <th>الجهة المحول اليها</th>
+                            <th>الخدمة/الخدمات</th>
+                            
+                        </tr>
+                    </thead>
+                    {%for letter in letters%}
+                    <tbody>
+                        <tr id="{{letter.id}}">
+                            <td><a class="btn btn-primary text-white cancel" letterId="{{letter.id}}">الغاء</a></td>
+                            <td><a class="btn btn-primary" href="/services/PrintLetter/{{letter.id}}">طباعة</a>
+                            </td>
+                            <td>{{letter.name}}</td>
+                            <td>{{letter.serial}}</td>
+                            <td>{{letter.created_at|date:"Y/m/d" }}</td>
+                            <td>{{letter.entity.name}}</td>
+                            <td>
+                                {{ letter.services.all|join:" / " }}
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            
+            {% else %}
+            ادخل الرقم القومى واضغط بحث
+            {% endif %}</h3>
+    </div>
+</div>
+<script>
+    // console.log("working")
+    
+</script>
+{% endblock %}

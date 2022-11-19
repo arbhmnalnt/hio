@@ -98,4 +98,6 @@ class Letter(TimeStampMixin,models.Model):
     services    = models.ManyToManyField('Service', blank=True, related_name='services',verbose_name="الخدمات")
     entity      = models.ForeignKey('Entity', related_name='letter_entity', on_delete=models.CASCADE, verbose_name="الجهة")
     created_by  = models.CharField(max_length=50, default="-", verbose_name="مسئول التسجيل") # created by employee
+    notes       = models.CharField(max_length=50, default="", null=True, blank=True)
+    cancelReason= models.CharField(max_length=50, default="", null=True, blank=True)
 

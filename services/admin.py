@@ -26,7 +26,7 @@ class EntitySubClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ('name',)
 
 class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    search_field = ('id','name', 'naID', 'serial')
+    search_fields = ['serial','name', 'naId']
     list_display = ('name','naId','get_services', 'entity','created_at_date', 'created_by')
 
     def get_queryset(self, request):

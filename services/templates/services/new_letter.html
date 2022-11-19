@@ -1,8 +1,6 @@
 {% extends "index.html" %}
 <style>
-    .body{
-
-    }
+    
 </style>
 {% block title %}<title>خدمة جديدة</title>{% endblock %}
 
@@ -15,6 +13,7 @@
         {% csrf_token %}
         <div class="row">
             <input class="d-none" id="randNum" value="{{randNum}}">
+            <input class="d-none" id="urlNaid" value="{{naId}}">
             <div class="col-4">
               {{ form1.serial|as_crispy_field }}
             </div>

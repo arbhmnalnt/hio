@@ -188,7 +188,7 @@ def profile(request):
         return redirect('/clinics/addFrequency')
 
     elif user.groups.filter(name="services_member"):
-        return redirect('/services/new')
+        return redirect('/services')
 
     else:
         request.session['group'] = "else"

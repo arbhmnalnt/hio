@@ -13,6 +13,17 @@
 
   <link rel="stylesheet" href="{% static 'services/css/style.css' %}">
 </head>
+<style>
+	.form-group{
+      text-align: center;
+    }
+    label{
+      font-weight: 500;
+    }
+    .form_holder {
+      background: #cce5f3;
+    }
+</style>
 <body>
 
 	<div class="container-fluid text-right" dir="rtl">
@@ -22,12 +33,12 @@
 			</div>
 			<h5 class="my-0 ml-md-auto font-weight-normal">الهيئة العامة للتأمين الصحى - فرع اسوان</h5>
 			<nav class="my-2 my-md-0 mr-md-3">
-				<a class="p-2 text-dark" href="#">عمل خدمة جديدة</a>
+				<a class="btn btn-info ml-2 p-2" href="/services/new">عمل خدمة جديدة</a>
 			</nav>
 			<a class="btn btn-outline-primary" href="#">مرحبا  {{ request.user.username }}</a>
 			<a class="btn btn-outline-primary mr-3" href="/accounts/logout">تسجيل الخروج</a>
 		</div>
-	<div class="col-10 m-auto">
+	<div class="col-12">
 	{% block content %}{% endblock %}
 
 	</div>
@@ -42,6 +53,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js" integrity="sha512-eSeh0V+8U3qoxFnK3KgBsM69hrMOGMBy3CNxq/T4BArsSQJfKVsKb5joMqIPrNMjRQSTl4xG8oJRpgU2o9I7HQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://unpkg.com/htmx.org@1.8.4"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<script>
 		// $('#id_services_holder').hide()
@@ -82,6 +95,74 @@
         $("input#id_serial").attr('readonly', 'readonly')
 	  </script>
 	<script src="{% static 'services/js/plugins.js' %}"></script>
+	<script>
+	$("a.cancel").click(function(){
+		let letterid = $(this).attr("letterid")
+		
+        Swal.fire({
+			title: 'سبب الالغاء',
+			input: 'text',
+			inputAttributes: {
+				autocapitalize: 'off',
+				required : 'required',
+				style :"display: flex; text-align:right"
+			},
+			showCancelButton: true,
+			confirmButtonText: 'الغاء الخطاب',
+			cancelButtonText: 'رجوع',
+			showLoaderOnConfirm: true,
+			preConfirm: (login) => {
+				return fetch(`/services/cancelLetter/${letterid}?cancelReason="test"`)
+				.then(response => {
+					if (!response.ok) {
+					throw new Error(response.statusText)
+					}
+					return response.json()
+				})
+				.catch(error => {
+					Swal.showValidationMessage(
+					`Request failed: ${error}`
+					)
+				})
+			},
+			allowOutsideClick: () => !Swal.isLoading()
+			}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+				title: 'تم الغاء الخطاب',
+				})
+				
+				setTimeout(function(){
+					location.reload()
+				}, 1000)
+			}
+			
+			})
+		
 
+    })
+	</script>
+	<script>
+		$("#naId").keyup(function(){
+			let naId = $(this).val();
+			console.log('naid => ', naId);
+			if (naId.length == 14){
+				$("#newLetterLink").attr('href', `/services/new?naId=${naId}`)
+			}
+		})
+		
+	</script>
+
+	<script>
+		setTimeout(() => {
+			let naId = $("#urlNaid").val();
+			console.log("naId => ", naId);
+			$("#div_id_naId #id_naId").attr('value', naId);
+		}, 900);
+
+		// $("input.nid-input").click(function(){
+		// 	$(this).css({'border-color': '#0000ff'});
+		// })
+	</script>
 </body>
 </html>

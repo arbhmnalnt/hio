@@ -34,7 +34,7 @@
         align-content: center;
         display: flex;
         text-align: center;
-        width: 400%;
+        width: 200%;
     }
     .custom-header-p span{
         display:inline-block;
@@ -47,8 +47,8 @@
     {% load crispy_forms_tags %}
 
     <div class="letter_holder  text-center" id="letter_holder" style="direction: rtl;">
-        <div class="holder p-5 border" style="font-weight:700">
-            <div class="row border-normal p-2 header">
+        <div class="holder p-5 border" style="">
+            <div class="row border-normal p-2 header" style="font-weight: 600;">
                 <div class="col-4 text-center">
                     <br>
                     <p>الهيئة العامة للتأمين الصحى</p>
@@ -73,10 +73,9 @@
                     </div>
                 </div>
             </div>
-            <hr>
             <div class="row p-2 part1 text-center border-normal">
-                <div class="col-12 text-center h3 pt-2 pb-2 mb-3 border-normal">بيانات المريض</div>
-                <table class="table col-12 border-normal table-bordered" rules="none" style="font-size:1.2rem">
+                <div class="col-12 text-center h3 pt-2 pb-2 mb-3">بيانات المريض</div>
+                <table class="table col-12  " rules="none" style="font-size:1.2rem">
                     <tbody>
                         <tr>
                             <td class="w-50">
@@ -116,22 +115,22 @@
                         </tr>
                         <tr>
                             <td class="td-custom">
-                                <span class="d-inline-block" style="width:27%">وصف الحالة</span>
-                                <span class="d-inline-block text-right" style="width:200%">{{ letter.description }}</span>
+                                <span class="d-inline-block" style="width:57%">وصف الحالة</span>
+                                <span class="d-inline-block text-right" style="white-space: break-spaces">{{ letter.description }}</span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <br>
-                <div class="col-12 h4 text-right mb-5 border-normal">
+                <hr style="border:dashed 0.5px;">
+                <div class="col-12 h4 text-right mb-5">
                     <p><span class="d-inline-block" style="width: 190px;">يحتاج المريض إلى:</span></p>
                     <p><span>{% for service in letter.services.all %} <p class="border-normal p-2">{{ service }}</p> {% endfor %}</span></p>
                     <p><span class="d-inline-block h3" style="width: 190px;">وذلك بالجهة</span> : <span class="h3">{{ letter.entity }}</span></p>
                 </div>
                 <div class="col-12 text-center">
-                    <p>يعتبر الخطاب سارى لمدة شهر من تاريخه</p>
+                    <p>يعتبر الخطاب سارى حتى نهاية الشهر الحالى</p>
                 </div>
-                <hr>
+                <hr style="border:dashed 0.5px;">
                 <div class="col-12 row h4">
                     <div class="col-4 d-inline-block">
                         <p>مسئول التسجيل</p>
@@ -154,7 +153,7 @@
             </div>
             <div class="row">
                 <div class="col-6 m-auto text-center">
-                    <a href="/services/new/"  class="w-100 btn btn-primary p-3 h2 no-print">خطاب جديد</a>
+                    <a href="/services/"  class="w-100 btn btn-primary p-3 h2 no-print">خطاب جديد</a>
                 </div>
             </div>
         </div>
