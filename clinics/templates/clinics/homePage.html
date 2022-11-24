@@ -1,0 +1,46 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>عيادة {{clinicName}}</title>{% endblock %}
+{% block style %}
+    <style>
+        .nav-item{
+            color: brown !important;
+            background: #bebfbf;
+            margin-bottom: 9px;
+            text-align: center; 
+            font-size: 1.5rem;
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+        
+        a.btn{
+            font-size: 1.5rem !important;
+            height: 10vh;
+            padding-top: 2.1vh;
+        }
+    </style>   
+{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-12 text-center m-auto">
+        <h3>الصفحة الرئيسية</h3>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-10 mr-auto ml-auto mb-5">
+        <a class="btn btn-primary w-100"  href="/clinics/addFrequency/">ادخال تردد اليوم</a>
+    </div>
+    <div class="col-10 mr-auto ml-auto mb-5">
+        <a class="btn btn-danger w-100" data-toggle="modal" data-target="#select_Data" href="#">ادخال تردد يوم سابق</a>
+    </div>
+    <div class="col-10 mr-auto ml-auto">
+        <a class="btn btn-info w-100" href="/clinics/viewRecords/">سجل ترددات العيادة</a>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+{% endblock %}

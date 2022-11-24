@@ -1,0 +1,168 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>عيادة {{clinicName}}</title>{% endblock %}
+{% block style %}
+  <style>
+    .table td{
+        vertical-align:middle !important;
+    }
+    .table-bordered thead th{
+        vertical-align: middle !important;
+    }
+
+    @media only screen and (min-width: 426px) {
+    .custom-m {
+        margin-right: 5rem !important;
+        }
+    }
+
+    @media only screen and (max-width: 425px) {
+    .custom-m {
+        margin-right: 1rem !important;
+        }
+    }
+    .sticky-col {
+        position: sticky !important;
+    }
+  </style>
+{% endblock %}
+
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% for DailyReport in DailyReport_list %}
+        {% for colname in DailyReport.column_set.all  %}
+            <p>{{colname}}</p>
+        {% endfor %}
+    {% endfor %}
+
+
+<div class="mt-3">
+    <h1 class="text-center">سجل الترددات</h1>
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+                <label for="prefill-dateFrom">اختر التاريخ من</label>
+                <input placeholder="من" type="date" id="prefill_dateFrom" name="dateFrom" class="form-control">
+        </div>
+        <div class="col-6">
+            <label for="prefill-dateTo">اختر التاريخ الى</label>
+            <input placeholder="الى" type="date" id="prefill_dateTo" name="dateFrom" class="form-control">
+        </div>
+        <div class="col-12 mt-3">
+            <a class="w-50 btn btn-primary" href="#" id="date_from_to">عرض</a>
+        </div>
+        <div class="col-4 text-center mt-3 border-left pt-3">
+            <label>اختر التصنيف</label>
+        </div>
+        <div class="col-8 row text-center mt-3 mr-2 pt-3">
+            <span>
+                <input type="checkbox" name="kind" value="advisory" id="advisory">
+                <label>الاستشارى</label>
+                
+            </span>
+            <span class="custom-m" mb-md-0>
+                <input type="checkbox"  name="kind" value="specialist" id="specialist">
+                <label>الاخصائى</label>
+                
+            </span>
+            
+        </div>
+    </div>
+    <br>
+    <div class="row text-center mb-4">
+        <div class="col-12 order p-2">
+            <h3>
+                {% if msg %}
+                {{ msg }}
+                {% else %}
+                عرض كل السجل
+                {% endif %}
+            </h3>
+        </div>
+    </div>
+    <div class="col-10 m-auto text-center mb-5" style="">
+        <table class="table mt-5 table-responsive table-bordered table-hovered table-sm " 
+        style="overflow-x:scroll">
+            <thead style="position: sticky; top: 1px;">
+                <tr class="text-white bg-dark">
+                    <th class="text-center" scope="col">اليوم</th>
+                    <th class="text-center" scope="col">التخصص</th>
+                    <th class="text-center" scope="col">الاخصائى</th>
+                    <th class="text-center" scope="col">الاستشارى</th>
+                    <th class="text-center" scope="col">روشتات المنتفعين</th>
+                    <th class="text-center" scope="col">روشتات الاطفال</th>
+                    <th class="text-center" scope="col">الاجمالى</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for DailyReport in DailyReports %}
+                <tr>
+                    <td class="text-center d-inline-block" 
+                    style="width: 100px;position: sticky;right: 1px; background: white;">{{DailyReport.day|date:"Y-m-d"}}</td>
+                    <td class="text-center">{{DailyReport.category}}</td>
+                    <td class="text-center">{{DailyReport.specialist}}</td>
+                    <td class="text-center">{{DailyReport.advisory}}</td>
+                    <td class="text-center">{{DailyReport.num}}</td>
+                    <td class="text-center">{{DailyReport.papers}}</td>
+                    <td class="text-center">{{DailyReport.childPapers}}</td>
+                </tr>
+            {% endfor %}
+        
+            </tbody>
+        </table>    
+    </div>
+</div>
+        
+{% block script %}
+<script>
+    // specialist advisory
+    setInterval(function(){
+        let specialist = $("#specialist"),
+            advisory = $("#advisory");
+
+            if((specialist.is(':checked')) & (advisory.is(':checked'))){
+                console.log("all is checked")
+                $(".advisory-title").removeClass("d-none")
+                $(".specialist-title").removeClass("d-none")
+                $(".specialist-val").removeClass("d-none")
+                $(".advisory-val").removeClass("d-none")
+            }
+            else{
+                $(".advisory-title").removeClass("d-none")
+                $(".specialist-title").removeClass("d-none")
+                $(".specialist-val").removeClass("d-none")
+                $(".advisory-val").removeClass("d-none")
+                if(specialist.is(':checked')){
+                    $(".advisory-title").addClass("d-none")
+                    $(".specialist-title").removeClass("d-none")
+                    $(".specialist-val").removeClass("d-none")
+                    $(".advisory-val").addClass("d-none")
+                    console.log("specialist is checked")
+                }else if(advisory.is(':checked')){
+                    $(".advisory-title").removeClass("d-none")
+                    $(".specialist-title").addClass("d-none")
+                    $(".specialist-val").addClass("d-none")
+                    $(".advisory-val").removeClass("d-none")
+                }
+            }        
+    },500)
+
+    setTimeout(() => {
+        let fromToLinkel = $("#date_from_to")
+        $("#prefill_dateFrom").change(function(){
+            let date_from = $(this).val()
+            fromToLinkel.attr("href", `#`)
+            fromToLinkel.attr("class", "w-50 btn btn-dark")
+        })
+        $("#prefill_dateTo").click(function(){
+            fromToLinkel.attr("class", "w-50 btn btn-primary")
+        })
+        $("#prefill_dateTo").change(function(){
+            let date_to  = $(this).val(),
+                date_from= $("#prefill_dateFrom").val();
+            fromToLinkel.attr("href", `/clinics/viewRecords/?dateFrom=${date_from}&dateTo=${date_to}`)
+        })
+    }, 500);
+</script>
+{% endblock %}
+{% endblock content %}

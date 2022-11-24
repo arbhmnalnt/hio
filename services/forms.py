@@ -1,6 +1,6 @@
 from dataclasses import fields
 from django import forms
-from .models import Letter, Service
+from .models import Letter, Service, ServicePrice
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
@@ -12,3 +12,9 @@ class LetterForm(forms.ModelForm):
 
         fields = ['serial','name','naId','by_doctor','law','ayada','diagnosis','description','price','services','entity','created_by']
         # fields = __all__
+
+class sevicePriceForm(forms.ModelForm):
+    class Meta:
+        model = ServicePrice
+        fields = ['name', 'price', 'notes']
+    

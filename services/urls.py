@@ -8,6 +8,6 @@ urlpatterns = [
 	path('new/', NewLetter, name="NewLetter"),
 	path('PrintLetter/<int:pk>/',PrintLetter, name='PrintLetter'),
 	path('cancelLetter/<int:pk>/',cancelLetter.as_view(), name='cancelLetter'),
-	
+	path('ServicePriceCreate/', ServicePriceCreateView.as_view(), name='film_create'),
 
 ]

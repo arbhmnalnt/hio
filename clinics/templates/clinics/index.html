@@ -3,34 +3,78 @@
 <head>
 	<!-- Add additional CSS in static file -->
   {% load static %}
-  {% block title %}<title>{{clinicName}}</title>{% endblock %}
+  {% block title %}<title>{{clinicName}} </title>{% endblock %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
   <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAATU1OAPKBBwABAsoA//3+AOjq6gD5+fkA6erqANvb2wABAK8AAQDIAAkLsQDEw8UA+f3/AAICywCtPQQAoDAAAENDQwDx8/MA6ur0AP/+/QACAswAxsbGAOLg3wCKQBcArYlqAKo8AADCxMQAzJpzAKs/AACsPwAA+/7+AKFqRgDX0+wAMjasAO3v7wD+/v4ApS4HAOnr6gBVWsoA/fz8AOzt7QAAAMsA///8AP7+/wACAs4A/P36AJA0CQABAckA/vz9AJ5BHgDn6ekAAADMAKk/AgDa2toAqnZgAPr++ADz9vYA5OfnAPb29gAnI7sAtm0/AJszBACsPQAAYWJiALCAXQAwMb0AFAz1AEtUxQC0gF0A///+AMSbfADq4NoAycnrAPHy8gAAAL0A5+foAP79/ABFSsEA+f//AMXFxQAAALUAgy8BAP7//wDo+fgA////AO/w8ACdodoA8vn4APv9/QClpaUAAQLJAP39/QDs7u4AxcbDAP79/QCxsrIAiIvPABgUtwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkXFxcXFxcXFxcXFxcXFxcQzYICAgICAgICAgICAgIQ1UWUFBQUFBQXgxQUFBQUBZVVVU4KGFOPEQLCUJJRlVVFCsqA2JXExc6ISc0LQ5bVSJRTVUGYBsjEgURVV9LFQoNEFVVOSkzQF0FSjtVWTBUHjVPVQUHWgVWEQUGVS5NL1IdPyVGWEwBACYfVUEPGARVVTIaHCBFPTcZRz5IMVVVJCQsJCRTVVVVJFUkJCQkJAJcXFxcXFxcXFxcXFxcXAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AAA=" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="stylesheet" href="{% static 'clinics/css/style.css' %}">
+  
+  {% block style %}
+  {% endblock %}
 </head>
 <body>
 
 	<div class="container-fluid text-right" dir="rtl">
-		<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-			<div class="border logo_holder">
-				<img class="w-100" src="https://iili.io/DgQvzG.png">
-			</div>
-			<h2 class="main_header">الهيئة العامة للتامين الصحى -  اسوان</h2>
-			<nav class="my-2 my-md-0 mr-md-3">
-				<a class="p-2 text-dark d-none" href="#">اللجان التخصصية</a>
-			</nav>
-			<a class="btn btn-outline-primary mb-4 mb-md-0 mb-lg-0" href="#">مرحبا  {{ request.user.username }}</a>
-			<a class="btn btn-warning mr-3 text-white h6" href="/accounts/logout">تسجيل الخروج</a>
-			{% if userGroup == "clinic_supervisor" or userGroup == "clinic_admin" %}
-			<a class="btn btn-danger mr-3 text-white h6" href="/clinics/daily_record">التسجيل اليومى</a>
-			{% endif %}
+	<!-- -- -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#hioNavbar" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+		
+		</button>
+		<img class="" src="https://www.hiocairo.com/images/mlogo.png" style="width:10% ;">
+		<span class="navbar-brand" href="#">الهيئة العامة للتأمين الصحى - فرع اسوان</span>
+		<div class="collapse navbar-collapse" id="hioNavbar">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item ml-2 mt-2">
+					<a class="nav-link btn btn-success text-white h-100" href="/clinics/">الصفحة الرئيسية</a>
+				</li>
+				<li class="nav-item active ml-2">
+					<a class="nav-link btn btn-primary text-white mt-2 h-100" href="/clinics/addFrequency/">إدخال تردد اليوم<span class="sr-only">(current)</span></a>
+				</li>
+				
+				<li class="nav-item ml-2 mt-2 mb-2">
+					<a class="nav-link btn btn-warning text-white h-100" 
+					id="prev_record_input" href="#" data-toggle="modal" data-target="#select_Data">إدخال تردد سابق</a>  
+					  
+				</li>
+				<li class="nav-item ml-2 mt-2">
+					<a class="nav-link btn btn-success text-white h-100" href="#">تعديل تردد</a>
+				</li>
+				<li class="nav-item ml-2 mt-2 mb-2">
+					<a class="nav-link btn btn-info text-white h-100" href="/clinics/viewRecords/">عرض سجل الترددات</a>
+				</li>
+				<a class="btn btn-danger mt-2 pt-2 h-100" href="/accounts/logout">تسجيل الخروج</a>
+			</ul>
 		</div>
-	<div class="col-12 col-md-10 col-xl-10 text-center mr-auto ml-auto mb-5">
+	</nav>	
+	<!-- -- -->
+	<!-- Modal -->
+	<div class="modal fade" id="select_Data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">اختر التاريخ</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body text-center" placeholder="test">
+					<input type="date" id="date" name="date">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">رجوع</button>
+					<a href="#" id="add_edit_frequency"><button type="button" class="btn btn-primary">تعديل الترددات</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-12 text-center mr-auto ml-auto mb-5">
 	{% block content %}{% endblock %}
 
 	</div>
@@ -49,6 +93,7 @@
 
 
 	<script src="{% static 'clinics/js/plugins.js' %}"></script>
+	{% block script %}{% endblock %}
 	<script>
 	    $("input.form-control").click(function(){
 	        $(this).attr('value', '')
@@ -64,9 +109,14 @@
 
 	    $("#ayada_select").change(function(){
 	        let clinic_id = $(this).val()
-	        $("#report_href").attr('href', `/clinics/m_report?clinic=${clinic_id}`)
+	        $("#report_href").attr('href', `/clinics/m_report/?clinic=${clinic_id}`)
 	    })
-
+		
+		$("#date").change(function(){
+			let date = document.getElementById("date").value
+			console.log("changed => ", date)
+			$("#add_edit_frequency").attr("href", `/clinics/add_edit_frequency/?date=${date}`)
+		})
 	</script>
 </body>
 </html>

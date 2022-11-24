@@ -2,10 +2,10 @@ from logging import exception
 from sre_parse import CATEGORIES
 from unicodedata import category
 from django.shortcuts import HttpResponse, HttpResponseRedirect, redirect, render
+from rest_framework.response import Response
 from django.urls import is_valid_path, reverse
 from django.views.generic.list import ListView
-
-
+from rest_framework.views import APIView
 # from symbol import pass_stmt
 from .forms import *
 from .models import *
@@ -15,11 +15,95 @@ from datetime import *
 from django.contrib.auth.models import Group
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login as auth_login
+from django.views import View
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.utils.dateparse import parse_date, parse_datetime
 
 
-today_date = datetime.now().date()
+
 # print(f"today date => ", today_date)
+class get_cat_vals(APIView):
+    def get(self, request):
+        
+        catId = request.GET.get('catId', '-')
+        dailyReportId = request.GET.get('dailyReportId', '-')
+        print("dailyReportId => ", int(dailyReportId))
+        # print('catId => ', catId)
+        if dailyReportId =="-":
+            print("erorr here ")
+        else:
+            dailyReport = DailyReport.objects.get(pk=dailyReportId)
+            specialist = dailyReport.specialist
+            advisory = dailyReport.advisory
+            papers = dailyReport.papers
+            childPapers = dailyReport.childPapers
+            print(f"dailyReport => dailyReport => {dailyReport}  cat => {catId} specialist => {specialist} advisory => {advisory}")
+            if dailyReportId == 426:
+                print(f"dailyReport => dailyReport => {dailyReport} specialist => {specialist} advisory => {advisory}")
+                print("here 1")
+            else:
+                print("here 2")
+        data = {'specialist':specialist, 'advisory': advisory, 'papers':papers, 'childPapers':childPapers, 'catId':catId}
+        return Response(data)
 
+def add_edit_frequency(request):
+    today_date = datetime.now().date()
+    date = request.GET.get('date', today_date)
+    user_clinic = request.user.employee.area
+    clinicName = user_clinic.name
+    isRecordCount = DailyReport.objects.filter(day=date, ayada=user_clinic)
+    if isRecordCount ==0:
+        is_prev_values = "no"
+    else:
+        daily_records = DailyReport.objects.filter(day=date, ayada=user_clinic)
+        
+        is_prev_values = "yes"
+    daily_record_id_list = [d.id for d in daily_records]
+    print(f"daily_record_id_list => {daily_record_id_list}")
+    categories1 = list(Category.objects.filter(ayada=user_clinic))
+    categories_obj = [cat.id for cat in categories1]
+    categories = zip(categories1, categories_obj, daily_record_id_list)
+
+    valus_dict = { 'cat':287, 'values':[5,1]}
+    ctx = {'date':date, 'is_prev_values':is_prev_values, 'clinicName':clinicName,
+    'categories':categories, 'valus_dict':valus_dict}
+    return render(request, './clinics/add_edit_frequency.html', ctx)
+
+def DailyReportListView(request):
+    user_clinic = request.user.employee.area
+    cats = Category.objects.filter(ayada=user_clinic)
+    catList = [cat.specific.name for cat in cats]
+    dateFrom =request.GET.get('dateFrom', '0')
+    dateTo = request.GET.get('dateTo', '0')
+    
+    if dateFrom != '0' and dateTo != '0':
+        dateFrom = parse_date(dateFrom)
+        dateTo = parse_date(dateTo)
+        DailyReports = DailyReport.objects.filter(day__range=[dateFrom, dateTo], ayada=user_clinic).order_by('day')
+    else:
+        DailyReports = DailyReport.objects.filter(ayada=user_clinic).order_by('day')
+    counter = DailyReports.count()
+    if counter == 0:
+        msg = 'لا يوجد ادخال فى التاريخ المحدد'
+    else:
+        msg=''
+    ctx = {'DailyReports':DailyReports, 'msg':msg, 'catList':catList}
+    
+    return render(request, './clinics/DailyReport_list.html', ctx)
+
+def homePage(request):
+    ctx = {}
+    return render(request, './clinics/homePage.html', ctx)
+
+def recordManage(request):
+    month = datetime.now().month
+    print("month => ", month)
+
+    ctx = {'month':month}
+    return render(request, 'clinics/record_management.html', ctx)
+    
 @csrf_exempt
 def login(request):
     message = ''
@@ -30,17 +114,21 @@ def login(request):
             username=username,
             password=password
         )
-
+        message = 'post'
         if user is not None:
             auth_login(request, user)
-            return redirect('/clinics/profile')
+            return redirect('/clinics/profile/')
             # message = f'Hello {user.username}! You have been logged in'
         else:
-            message = 'Login failed!'
+            message = 'خطأ بإسم المستخدم أو كلمة السر'
+    else:
+        message = ''
     return render(request, 'clinics/login.html', context={'message': message})
 
 # الفترة المسائية عيادتان
 def m_report(request):
+    today_date = datetime.now().date()
+    month = datetime.now().month
     date = request.POST.get('date', today_date)
     ayada1 = Ayadat.objects.get(pk=16)
     ayada2 = Ayadat.objects.get(pk=17)
@@ -64,7 +152,7 @@ def daily_record(request):
     else:
         msg = "لا تملك صلاحية الوصول لهذه الصفحة , الرجاء التواص مع المسؤول"
         return redirect(f'/clinics/erorr_page?msg={msg}')
-    records = DailyReportHistory.objects.all()
+    records = DailyReportHistory.objects.all().order_by('-day')
     ctx = {'records':records}
     return render(request, './clinics/daily_record.html', ctx)
 
@@ -104,6 +192,8 @@ def home(request):
 
 @login_required
 def addFrequency(request):
+    today_date = datetime.now().date()
+    month = datetime.now().month
     user_clinic = request.user.employee.area
     clinicName = user_clinic.name
     print(f"user {request.user.username} is start visiting add frequncy page at {datetime.now()}")
@@ -118,6 +208,7 @@ def addFrequency(request):
         msg = e
         return redirect(f'/accounts/login')
     # check if user previously recorded or this is first time
+    
     user_id = request.user.id
     user = User.objects.get(pk=user_id)
     print(f"today_date => {today_date}")
@@ -179,13 +270,11 @@ def profile(request):
 
     elif user.groups.filter(name="clinic_supervisor"):
         request.session['group'] = "clinic_supervisor"
-
-        return redirect('/clinics/addFrequency')
+        return redirect('/clinics/')
 
     elif user.groups.filter(name="clinic_member"):
         request.session['group'] = "clinic_member"
-
-        return redirect('/clinics/addFrequency')
+        return redirect('/clinics/')
 
     elif user.groups.filter(name="services_member"):
         return redirect('/services')
@@ -210,6 +299,8 @@ def getTotal(cats, date):
     return total
 
 def addDataToDailyReport(data,ayada):
+    today_date = datetime.now().date()
+    month = datetime.now().month
     categories = Category.objects.filter(ayada=ayada)
     del data['csrfmiddlewaretoken']
     del data['frequency_form']

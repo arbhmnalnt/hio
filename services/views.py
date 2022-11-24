@@ -7,6 +7,25 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from rest_framework.response import Response
 import json
+from django.views import View
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+
+class priceBaseView(View):
+    model = ServicePrice
+    fields = '__all__'
+    success_url = reverse_lazy('services:all')
+
+class ServicePriceCreateView(priceBaseView, CreateView):
+    """View to create a new film"""
+class ServicePriceUpdateView(priceBaseView, UpdateView):
+    """View to update a film"""
+
+class ServicePriceDeleteView(priceBaseView, DeleteView):
+    """View to delete a film"""
+
 
 class cancelLetter(APIView):
     def get(self, request, pk):
@@ -61,7 +80,7 @@ def NewLetter(request):
         if form.is_valid():
                 myform=form.save()
                 formId = myform.id
-                return redirect(reverse('PrintLetter',args=(formId,)))
+                return redirect(f'/services/PrintLetter/{formId}')
     else:
         naId = str(request.GET.get('naId', ''))
         print("naid => ",naId)

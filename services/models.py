@@ -101,3 +101,8 @@ class Letter(TimeStampMixin,models.Model):
     notes       = models.CharField(max_length=50, default="", null=True, blank=True)
     cancelReason= models.CharField(max_length=50, default="", null=True, blank=True)
 
+
+class ServicePrice(TimeStampMixin,models.Model):
+    name  = models.ForeignKey('Service', related_name='service_price', on_delete=models.CASCADE, verbose_name="اسم الخدمة")
+    price = models.IntegerField(default=0, verbose_name="الرسوم المقررة")
+    notes = models.CharField(max_length=50, default=" ", verbose_name="ملاحظات")

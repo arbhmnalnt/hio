@@ -1,0 +1,91 @@
+{% extends "clinics/index.html" %}
+
+{% block title %}<title>{{clinicName}}</title>{% endblock %}
+
+{% block content %}
+{% load bootstrap4 %}
+{% load crispy_forms_tags %}
+<h6 class="text-center pt-3 pb-3">
+    <p class="badge badge-info " style="font-size: 1.2rem;white-space: pre-wrap;line-height: 2rem;">تعديل تردد يوم {{date}}</p>
+</h6>
+<div class="pt-4 border">
+    
+    <form action="#" method="post" name="frequency" class="form" required>
+        {% csrf_token %}
+        <div class="cats_holder row">
+            {% for cat , cat_obj , reportID in categories %}
+            
+            <div class="col-md-3 col-sm-6 mr-auto ml-auto border-bottom mb-2 holder">
+                <span class="d-inline-block h4 w-100">
+                    <label class="badge badge-primary w-100 p-3 cat">
+                        {{cat}}<input class="cat_id d-none" value="{{cat_obj}}">
+                        <input class="d-none daily_record_id d-none" value="{{reportID}}">
+                    </label>
+                </span>
+                <p class="d-flex">
+                    <input value="" type="number" name="sp{{cat.id}}" class="text-center form-control custom specialist" placeholder="اخصائى">
+                    <input value="{{valus_dict.cat.advisory}}" type="number" name="ad{{cat.id}}" class="text-center form-control custom advisory" placeholder="استشارى">
+                </p>
+            </div>
+            {% endfor %}
+            <p class="row text-center h5">
+                <span class="d-block col-md-3 col-sm-6 m-auto">
+                    <label class="d-block badge badge-info w-100 p-3">اجمالى الروشتات</label>
+                    <input value="0" type="number" name="papers" class="text-center form-control custom papers" placeholder="الروشتات">
+                </span>
+                <span class="d-block col-md-3 col-sm-6 m-auto">
+                    <label class="d-block badge badge-info w-100 p-3">روشتات الاطفال</label>
+                    <input value="0" type="number" name="childPapers" class="text-center form-control custom childPapers " placeholder="روشتات الاطفال">
+                </span>
+            </p>
+            <div class="col-md-4 col-sm-10 m-auto">
+                <input type="submit" name="frequency_form" class="d-block p-2 w-100  btn btn-danger btn-lg" style="margin-top:32px" value="حفظ">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    setTimeout(function(){
+        $("input.cat_id").each(function() {    
+        console.log( "cat id => " + $(this).val());
+        let reportID = $(this).next('input').val();
+        console.log( "reportID  => " + reportID);
+//
+        url= `/clinics/get_cat_vals/?dailyReportId=${reportID}&catId=${$(this).val()}`
+
+//
+        async function fetchMoviesJSON() {
+        const response = await fetch(url);
+        const movies = await response.json();
+        return movies;
+        }
+        fetchMoviesJSON().then(movies => {
+        movies; // fetched movies
+        console.log(`catId => ${movies.catId}`)
+        console.log(`advisory => ${movies.advisory}`)
+        console.log(`specialist => ${movies.specialist}`)
+        $(this).parents(".holder").find('input.specialist').attr("value", movies.specialist)
+        $(this).parents(".holder").find('input.advisory').attr("value", movies.advisory)
+        });
+        
+        //     setTimeout(function(){
+        //         $.ajax({url: `/clinics/get_cat_vals/?dailyReportId=${reportID}&catId=${$(this).val()}`, success: function(result){
+        //             console.log('result advisory => ', result.advisory)
+        //             $("input.specialist").attr("value", result.specialist)
+        //             $("input.advisory").attr("value", result.advisory)
+        //             $("input.papers").attr("value", result.papers)
+        //             $("input.childPapers").attr("value", result.childPapers)
+                    
+        //         }});
+        //     }, 10)
+            
+        });
+        
+    },500)
+</script>
+{% endblock %}

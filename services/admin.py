@@ -10,6 +10,10 @@ class EmployeeInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'موظف'
 
+class ServicePriceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ('name','price','notes')
+    search_fields = ['name',]
+
 class UserAdmin(BaseUserAdmin):
     inlines = [EmployeeInline]
 
@@ -90,6 +94,7 @@ class EntityServiceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         return " - ".join([service.name for service in obj.services.all()])
 
 # Re-register UserAdmin
+admin.site.register(ServicePrice,ServicePriceAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(EntityMainClass  ,EntityMainClassAdmin)
