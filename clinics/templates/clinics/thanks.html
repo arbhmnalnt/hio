@@ -10,7 +10,11 @@
 </h6>
 <div class="row holder text-center border">
     <div class="col-md-6 col-sm-10 m-auto lead text-primary p-3" style="font-weight:bolder">
+        {% if msg %}
+        {{msg}}
+        {% else %}
         تعاونك المثمر بإدخال التردد اليومى هو أحد أهم السبل التى توضح الجهود المبذولة من قبل عيادة {{clinicName}} لخدمة المنتفعين <br><hr> نتمنى يوما سعيدا لك يا {{request.user.first_name}} {{request.user.last_name}}
+        {% endif %}
     </div>
 </div>
 <div class="row mt-3">

@@ -18,6 +18,8 @@ urlpatterns = [
 	path('add_edit_frequency/', add_edit_frequency, name='add_edit_frequency'),
 	path('get_cat_vals/', get_cat_vals.as_view(), name='get_cat_vals'),
 	
+	path('update_record/', update_record.as_view(), name='update_record'),
+	
 	
 	# path('PrintLetter/<int:pk>/',PrintLetter, name='PrintLetter')
 	# path('makeAuto', makeAuto) # use to make some actions

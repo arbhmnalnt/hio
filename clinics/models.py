@@ -48,13 +48,15 @@ class Category(TimeStampMixin,models.Model):
 from datetime import date
 
 class DailyReport(TimeStampMixin,models.Model):
-    day        = models.DateField(default=date.today, verbose_name="تاريخ اليوم")
-    category   = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name="تخصص العيادة")
-    ayada      = models.ForeignKey('services.Ayadat', on_delete=models.CASCADE, verbose_name="العيادة",null=True)
-    specialist = models.IntegerField(verbose_name="حالات الاخصائى", default=0)
-    advisory   = models.IntegerField(verbose_name="حالات الاستشارى", default=0)
-    num        = models.IntegerField(verbose_name="الإجمالى", default=0)
-    papers      = models.IntegerField(verbose_name="إجمالى الروشتات", default=0 )
+    day          = models.DateField(default=date.today, verbose_name="تاريخ اليوم")
+    category     = models.ForeignKey('Category', on_delete=models.CASCADE, verbose_name="تخصص العيادة")
+    categorySlug = models.SlugField(null=True)
+    ayada        = models.ForeignKey('services.Ayadat', on_delete=models.CASCADE, verbose_name="العيادة",null=True)
+    ayadaSlug    = models.SlugField(null=True)
+    specialist   = models.IntegerField(verbose_name="حالات الاخصائى", default=0)
+    advisory     = models.IntegerField(verbose_name="حالات الاستشارى", default=0)
+    num          = models.IntegerField(verbose_name="الإجمالى", default=0)
+    papers       = models.IntegerField(verbose_name="إجمالى الروشتات", default=0 )
     childPapers      = models.IntegerField(verbose_name="إجمالى روشتات الاطفال", default=0)
 
 

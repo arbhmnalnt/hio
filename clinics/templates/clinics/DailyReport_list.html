@@ -87,8 +87,8 @@
                 <tr class="text-white bg-dark">
                     <th class="text-center" scope="col">اليوم</th>
                     <th class="text-center" scope="col">التخصص</th>
-                    <th class="text-center" scope="col">الاخصائى</th>
-                    <th class="text-center" scope="col">الاستشارى</th>
+                    <th class="text-center specialist-title" scope="col">الاخصائى</th>
+                    <th class="text-center advisory-title" scope="col">الاستشارى</th>
                     <th class="text-center" scope="col">روشتات المنتفعين</th>
                     <th class="text-center" scope="col">روشتات الاطفال</th>
                     <th class="text-center" scope="col">الاجمالى</th>
@@ -100,8 +100,8 @@
                     <td class="text-center d-inline-block" 
                     style="width: 100px;position: sticky;right: 1px; background: white;">{{DailyReport.day|date:"Y-m-d"}}</td>
                     <td class="text-center">{{DailyReport.category}}</td>
-                    <td class="text-center">{{DailyReport.specialist}}</td>
-                    <td class="text-center">{{DailyReport.advisory}}</td>
+                    <td class="text-center specialist-val">{{DailyReport.specialist}}</td>
+                    <td class="text-center advisory-val">{{DailyReport.advisory}}</td>
                     <td class="text-center">{{DailyReport.num}}</td>
                     <td class="text-center">{{DailyReport.papers}}</td>
                     <td class="text-center">{{DailyReport.childPapers}}</td>

@@ -7,7 +7,9 @@
 {% load crispy_forms_tags %}
 <h6 class="text-center pt-3 pb-3">
     <p class="badge badge-info " style="font-size: 1.2rem;white-space: pre-wrap;line-height: 2rem;">تعديل تردد يوم {{date}}</p>
+    <input type="hidden" class="d-none" id="dayDate" value="{{date}}">
 </h6>
+{{is_prev_values }}
 <div class="pt-4 border">
     
     <form action="#" method="post" name="frequency" class="form" required>
@@ -15,7 +17,7 @@
         <div class="cats_holder row">
             {% for cat , cat_obj , reportID in categories %}
             
-            <div class="col-md-3 col-sm-6 mr-auto ml-auto border-bottom mb-2 holder">
+            <div class="col-md-3 col-sm-6 mr-auto ml-auto border-bottom mb-2 holder" id="one_holder">
                 <span class="d-inline-block h4 w-100">
                     <label class="badge badge-primary w-100 p-3 cat">
                         {{cat}}<input class="cat_id d-none" value="{{cat_obj}}">
@@ -37,9 +39,9 @@
                     <label class="d-block badge badge-info w-100 p-3">روشتات الاطفال</label>
                     <input value="0" type="number" name="childPapers" class="text-center form-control custom childPapers " placeholder="روشتات الاطفال">
                 </span>
-            </p>
+            </p>    
             <div class="col-md-4 col-sm-10 m-auto">
-                <input type="submit" name="frequency_form" class="d-block p-2 w-100  btn btn-danger btn-lg" style="margin-top:32px" value="حفظ">
+                <input type="submit" name="frequency_form" class="d-block p-2 w-100  btn btn-danger btn-lg editOrAdd" style="margin-top:32px" value="حفظ">
             </div>
         </div>
 
@@ -51,41 +53,58 @@
 {% block script %}
 <script>
     setTimeout(function(){
+        console.log(`$("input.cat_id").length => ${$("input.cat_id").length}`)
         $("input.cat_id").each(function() {    
-        console.log( "cat id => " + $(this).val());
-        let reportID = $(this).next('input').val();
-        console.log( "reportID  => " + reportID);
-//
-        url= `/clinics/get_cat_vals/?dailyReportId=${reportID}&catId=${$(this).val()}`
-
-//
-        async function fetchMoviesJSON() {
-        const response = await fetch(url);
-        const movies = await response.json();
-        return movies;
-        }
-        fetchMoviesJSON().then(movies => {
-        movies; // fetched movies
-        console.log(`catId => ${movies.catId}`)
-        console.log(`advisory => ${movies.advisory}`)
-        console.log(`specialist => ${movies.specialist}`)
-        $(this).parents(".holder").find('input.specialist').attr("value", movies.specialist)
-        $(this).parents(".holder").find('input.advisory').attr("value", movies.advisory)
+            let reportID = $(this).next('input').val();
+            url= `/clinics/get_cat_vals/?dailyReportId=${reportID}&catId=${$(this).val()}`
+            async function fetchMoviesJSON() {
+            const response = await fetch(url);
+            const movies = await response.json();
+            return movies;
+            }
+            fetchMoviesJSON().then(movies => {
+            movies; // fetched movies
+            $(this).parents(".holder").find('input.specialist').attr("value", movies.specialist)
+            $(this).parents(".holder").find('input.advisory').attr("value", movies.advisory)
+            $("input.papers").attr("value", movies.papers)
+            $("input.childPapers").attr("value", movies.childPapers)
+            }); 
         });
-        
-        //     setTimeout(function(){
-        //         $.ajax({url: `/clinics/get_cat_vals/?dailyReportId=${reportID}&catId=${$(this).val()}`, success: function(result){
-        //             console.log('result advisory => ', result.advisory)
-        //             $("input.specialist").attr("value", result.specialist)
-        //             $("input.advisory").attr("value", result.advisory)
-        //             $("input.papers").attr("value", result.papers)
-        //             $("input.childPapers").attr("value", result.childPapers)
-                    
-        //         }});
-        //     }, 10)
-            
-        });
-        
     },500)
+</script>
+<script>
+    var specialist_val,advisory_val;
+    
+    $("input.editOrAdd").click(function(e){
+        e.preventDefault();
+        Swal.fire(
+            'تم',
+            'رجاء الانتظار, جارى حفظ البيانات',
+            'success'
+        )
+        $("input.cat_id").each(function() {    
+            console.log(`$("input.editOrAdd") => ${$("input.cat_id").length}`)
+            specialist_val = $(this).parentsUntil("#one_holder").siblings(".d-flex").find("input.specialist").val(),
+            advisory_val = $(this).parentsUntil("#one_holder").siblings(".d-flex").find("input.advisory").val();
+            console.log(`"specialist_val => ${specialist_val} // advisory_val => ${advisory_val}"`)
+            // start updating 
+            let reportID    = $(this).next('input').val(),
+                papers      = $('input.papers').val(),
+                childPapers = $('input.childPapers').val();
+            params = `specialist=${specialist_val}&advisory=${advisory_val}&papers=${papers}&childPapers=${childPapers}`;
+            url= `/clinics/update_record/?dayDate=${$("#dayDate").val()}&dailyReportId=${reportID}&catId=${$(this).val()}&${params}`
+            async function fetchMoviesJSON() {
+            const response = await fetch(url);
+            const movies = await response.json();
+            return movies;
+            }
+            fetchMoviesJSON().then(movies => {
+            movies; // fetched movies
+            console.log(`msg => ${movies.msg} // dailyReportID=> ${dailyReportID}`)
+
+            }); 
+        });
+        window.location.href = '/clinics/thanks/'
+    })
 </script>
 {% endblock %}

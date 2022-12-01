@@ -13,7 +13,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="stylesheet" href="{% static 'clinics/css/style.css' %}">
-  
+  <style>
+	.custom-divider{
+		margin-top: 0.2rem;
+		margin-bottom: 0.2rem;
+	}
+  </style>
   {% block style %}
   {% endblock %}
 </head>
@@ -30,25 +35,28 @@
 		<span class="navbar-brand" href="#">الهيئة العامة للتأمين الصحى - فرع اسوان</span>
 		<div class="collapse navbar-collapse" id="hioNavbar">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-				<li class="nav-item ml-2 mt-2">
-					<a class="nav-link btn btn-success text-white h-100" href="/clinics/">الصفحة الرئيسية</a>
+				<li class="nav-item">
+					<a class="nav-link btn btn-success text-white ml-md-2 ml-lg-2 ml-xl-2 h-100 w-100" href="/clinics/">الصفحة الرئيسية</a>
 				</li>
-				<li class="nav-item active ml-2">
-					<a class="nav-link btn btn-primary text-white mt-2 h-100" href="/clinics/addFrequency/">إدخال تردد اليوم<span class="sr-only">(current)</span></a>
+				<hr class="custom-divider">
+				<li class="nav-item active">
+					<a class="nav-link btn btn-primary text-white h-100" href="/clinics/addFrequency/">إدخال تردد اليوم<span class="sr-only">(current)</span></a>
 				</li>
-				
-				<li class="nav-item ml-2 mt-2 mb-2">
+				<hr class="custom-divider">
+				<li class="nav-item">
 					<a class="nav-link btn btn-warning text-white h-100" 
 					id="prev_record_input" href="#" data-toggle="modal" data-target="#select_Data">إدخال تردد سابق</a>  
-					  
 				</li>
-				<li class="nav-item ml-2 mt-2">
-					<a class="nav-link btn btn-success text-white h-100" href="#">تعديل تردد</a>
+				<hr class="custom-divider">
+				<li class="nav-item">
+					<a class="nav-link btn btn-success text-white h-100" href="#" data-toggle="modal" data-target="#select_Data">تعديل تردد</a>
 				</li>
-				<li class="nav-item ml-2 mt-2 mb-2">
+				<hr class="custom-divider">
+				<li class="nav-item">
 					<a class="nav-link btn btn-info text-white h-100" href="/clinics/viewRecords/">عرض سجل الترددات</a>
 				</li>
-				<a class="btn btn-danger mt-2 pt-2 h-100" href="/accounts/logout">تسجيل الخروج</a>
+				<hr class="custom-divider">
+				<a class="btn btn-danger mr-md-2 mr-lg-2 mr-xl-2" href="/accounts/logout">تسجيل الخروج</a>
 			</ul>
 		</div>
 	</nav>	
@@ -68,7 +76,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">رجوع</button>
-					<a href="#" id="add_edit_frequency"><button type="button" class="btn btn-primary">تعديل الترددات</button></a>
+					<a href="#" id="add_edit_frequency"><button type="button" class="btn btn-primary">التالى</button></a>
 				</div>
 			</div>
 		</div>
@@ -96,16 +104,28 @@
 	{% block script %}{% endblock %}
 	<script>
 	    $("input.form-control").click(function(){
-	        $(this).attr('value', '')
+	        $(this).attr('value', 0)
 	    })
 
-	    $("input[type='submit']").click(function(){
+		setInterval(function(){
+			$("input.form-control").each(function() { 
+				// console.log(`value => ${$(this).val()}`)
+				if($(this).attr('value') == ""){
+					$(this).attr('value', 0)
+				}
+			})
+		},500)
+
+	    $("input.save").click(function(){
 	        Swal.fire(
               'تم',
               'رجاء الانتظار, جارى حفظ البيانات',
               'success'
             )
 	    })
+
+		
+		
 
 	    $("#ayada_select").change(function(){
 	        let clinic_id = $(this).val()

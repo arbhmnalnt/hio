@@ -1,3 +1,4 @@
+import json
 from logging import exception
 from sre_parse import CATEGORIES
 from unicodedata import category
@@ -24,12 +25,43 @@ from django.utils.dateparse import parse_date, parse_datetime
 
 
 # print(f"today date => ", today_date)
+class update_record(APIView):
+    def get(self, request):
+        day = request.GET.get('dayDate', '-')
+        dailyReportId = request.GET.get('dailyReportId', '-')
+        categoryId  = request.GET.get('catId', '-')
+        user_clinic = request.user.employee.area
+        specialist  = request.GET.get('specialist', '-')
+        advisory    = request.GET.get('advisory', '-')
+        num         = request.GET.get('num', 0)
+        papers      = request.GET.get('papers', 0)
+        childPapers = request.GET.get('childPapers', 0)
+        # `specialist=${specialist_val}&advisory=${advisory}&num=${num}&papers=${papers}`
+        if dailyReportId =="-" or day == "-":
+            # print(f"erorr here dailyReportId => ${dailyReportId} // day => ${day}")
+            data = {'msg':'erorr'}
+        else:
+            cat = Category.objects.get(pk=categoryId)
+            categorySlug = cat.specific.name
+            ayadaSlug    = user_clinic.name
+            dailyReport = DailyReport.objects.update_or_create(
+                pk=dailyReportId,
+                defaults={
+                    "day":day,"category":cat,"ayada":user_clinic,
+                    "specialist":specialist,"advisory":advisory,"num":num,"papers":papers,"childPapers":childPapers,
+                    "categorySlug":categorySlug, "ayadaSlug":ayadaSlug
+                },
+            )
+            # print(f"=============\n dailyReport => {dailyReport}")
+
+            data = {'msg':'done'}
+        return Response(data)
+
 class get_cat_vals(APIView):
     def get(self, request):
         
         catId = request.GET.get('catId', '-')
         dailyReportId = request.GET.get('dailyReportId', '-')
-        print("dailyReportId => ", int(dailyReportId))
         # print('catId => ', catId)
         if dailyReportId =="-":
             print("erorr here ")
@@ -39,36 +71,29 @@ class get_cat_vals(APIView):
             advisory = dailyReport.advisory
             papers = dailyReport.papers
             childPapers = dailyReport.childPapers
-            print(f"dailyReport => dailyReport => {dailyReport}  cat => {catId} specialist => {specialist} advisory => {advisory}")
-            if dailyReportId == 426:
-                print(f"dailyReport => dailyReport => {dailyReport} specialist => {specialist} advisory => {advisory}")
-                print("here 1")
-            else:
-                print("here 2")
         data = {'specialist':specialist, 'advisory': advisory, 'papers':papers, 'childPapers':childPapers, 'catId':catId}
         return Response(data)
 
+@login_required
 def add_edit_frequency(request):
     today_date = datetime.now().date()
     date = request.GET.get('date', today_date)
     user_clinic = request.user.employee.area
     clinicName = user_clinic.name
-    isRecordCount = DailyReport.objects.filter(day=date, ayada=user_clinic)
+    isRecordCount = DailyReport.objects.filter(day=date, ayada=user_clinic).count()
     if isRecordCount ==0:
         is_prev_values = "no"
+        return redirect(f'/clinics/addFrequency/?date={date}')
     else:
         daily_records = DailyReport.objects.filter(day=date, ayada=user_clinic)
-        
         is_prev_values = "yes"
     daily_record_id_list = [d.id for d in daily_records]
     print(f"daily_record_id_list => {daily_record_id_list}")
     categories1 = list(Category.objects.filter(ayada=user_clinic))
     categories_obj = [cat.id for cat in categories1]
     categories = zip(categories1, categories_obj, daily_record_id_list)
-
-    valus_dict = { 'cat':287, 'values':[5,1]}
     ctx = {'date':date, 'is_prev_values':is_prev_values, 'clinicName':clinicName,
-    'categories':categories, 'valus_dict':valus_dict}
+    'categories':categories}
     return render(request, './clinics/add_edit_frequency.html', ctx)
 
 def DailyReportListView(request):
@@ -93,9 +118,24 @@ def DailyReportListView(request):
     
     return render(request, './clinics/DailyReport_list.html', ctx)
 
+@login_required
 def homePage(request):
-    ctx = {}
-    return render(request, './clinics/homePage.html', ctx)
+    user_clinic = request.user.employee.area
+    clinicName = user_clinic.name
+    print("clinicName => ", clinicName)
+    if 'group' in request.session:
+        userGroup = request.session['group']
+    else:
+        return redirect('/clinics/login')
+
+    if request.user.groups.filter(name="clinic_member"):
+        request.session['group'] = "clinic_member"
+    else:
+        return redirect('/clinics/login')
+    if clinicName == "الكل":
+        clinicName = "العيادات"
+    ctx = {"clinicName":clinicName}
+    return render(request, './clinics/homePage.html' , ctx)
 
 def recordManage(request):
     month = datetime.now().month
@@ -181,14 +221,7 @@ def thanks(request):
     ctx = {"clinicName":clinicName}
     return render(request, './clinics/thanks.html', ctx)
 
-@login_required
-def home(request):
-    user_clinic = request.user.employee.area
-    clinicName = user_clinic.name
-    if clinicName == "الكل":
-        clinicName = "العيادات"
-    ctx = {"clinicName":clinicName}
-    return render(request, './clinics/index.html' , ctx)
+
 
 @login_required
 def addFrequency(request):
@@ -215,8 +248,7 @@ def addFrequency(request):
     prev_record = DailyReportHistory.objects.filter(day=today_date, user=user).count()
     if request.method == 'GET':
         if prev_record >0:
-            msg = "سبق لك تسجيل البيانات من قبل, الرجاء العلم ان تعديل البيانات يتم من خلال المسؤول فقط"
-            return redirect(f'/clinics/erorr_page?msg={msg}')
+            pass
         else:
             pass
     if clinicName == "الكل":
@@ -227,11 +259,13 @@ def addFrequency(request):
     print(f"user {request.user.username} is pressing save to the record at {datetime.now()}")
     if request.method == 'POST':
         if prev_record >0:
-            msg = "سبق لك تسجيل البيانات من قبل, الرجاء العلم ان تعديل البيانات يتم من خلال المسؤول فقط"
-            return redirect(f'/clinics/erorr_page?msg={msg}')
+            pass
         else:
             print(f"user {request.user.username} is pressing save to the record at {datetime.now()}")
-            record = DailyReportHistory.objects.create(day=today_date, user=user)
+            record = DailyReportHistory.objects.update_or_create(
+                day=today_date, user=user,
+                defaults={"day":today_date, "user":user}
+                )
         if 'frequency_form' in request.POST:
             frequency_form = request.POST
             try:
@@ -311,14 +345,16 @@ def addDataToDailyReport(data,ayada):
         ad_cat_num   = int(data[ad_cat_input])
         papers       = data['papers']
         childPapers  = data['childPapers']
-        nums = sp_cat_num + ad_cat_num
+        nums         = sp_cat_num + ad_cat_num
+        categorySlug = Category.objects.filter(pk=cat.id)[0].specific.name
+        ayadaSlug    = ayada.name
         print(f"nums => {nums}")
         created = DailyReport.objects.update_or_create(
             category=cat, ayada=ayada, day=today_date,
             defaults={
                     "day": today_date, "category":cat, "ayada":ayada, "num":nums,
                     "advisory":ad_cat_num,"specialist":sp_cat_num, "papers":papers,
-                    "childPapers": childPapers
+                    "childPapers": childPapers, "categorySlug":categorySlug, "ayadaSlug":ayadaSlug
                 },
             )
 
