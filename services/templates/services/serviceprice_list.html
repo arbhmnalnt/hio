@@ -1,0 +1,39 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<!-- BOOTSTRAP FORM -->
+
+<div class="row">
+    <div class="col-12 text-center">
+        <table class="table table-bordered table-hovered">
+            <thead class="bg-dark text-white">
+                <tr>
+                    <th>اسم الخدمة</th>
+                    <th>سعر الخدمة</th>
+                    <th>ملاحظات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in object_list %}
+                <tr>
+                    <td>{{service.name}}</td>
+                    <td>{{service.price}}</td>
+                    <td>{{service.notes}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- END BOOTSTRAP FORM -->
+
+{% endblock %}
+{% block script %}
+    <script>
+        setTimeout(function(){
+		  $('#id_name').chosen();
+		},300)
+    </script>
+{% endblock %}

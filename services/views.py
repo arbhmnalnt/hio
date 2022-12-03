@@ -18,6 +18,9 @@ class priceBaseView(View):
     fields = '__all__'
     success_url = reverse_lazy('services:all')
 
+class ServicePriceListView(priceBaseView, ListView):
+    "list view"
+
 class ServicePriceCreateView(priceBaseView, CreateView):
     """View to create a new film"""
 class ServicePriceUpdateView(priceBaseView, UpdateView):
