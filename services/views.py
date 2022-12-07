@@ -30,10 +30,10 @@ class ServicePriceUpdateView(priceBaseView, UpdateView):
 class ServicePriceDeleteView(priceBaseView, DeleteView):
     """View to delete a film"""
 
-class EditLetter(UpdateView, pk):
-    model = Letter
-    fields = '__all__'
-    success_url = reverse_lazy('services:PrintLetter/255', kwargs={"letter_id": post.pk})
+# class EditLetter(UpdateView, pk):
+#     model = Letter
+#     fields = '__all__'
+#     success_url = reverse_lazy('services:PrintLetter/255', kwargs={"letter_id": post.pk})
 
 class cancelLetter(APIView):
     def get(self, request, pk):

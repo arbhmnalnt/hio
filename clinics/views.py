@@ -226,6 +226,7 @@ def thanks(request):
 @login_required
 def addFrequency(request):
     today_date = datetime.now().date()
+    date = request.GET.get('date', today_date)
     month = datetime.now().month
     user_clinic = request.user.employee.area
     clinicName = user_clinic.name
@@ -244,8 +245,8 @@ def addFrequency(request):
     
     user_id = request.user.id
     user = User.objects.get(pk=user_id)
-    print(f"today_date => {today_date}")
-    prev_record = DailyReportHistory.objects.filter(day=today_date, user=user).count()
+    print(f"date => {date}")
+    prev_record = DailyReportHistory.objects.filter(day=date, user=user).count()
     if request.method == 'GET':
         if prev_record >0:
             pass
@@ -263,8 +264,8 @@ def addFrequency(request):
         else:
             print(f"user {request.user.username} is pressing save to the record at {datetime.now()}")
             record = DailyReportHistory.objects.update_or_create(
-                day=today_date, user=user,
-                defaults={"day":today_date, "user":user}
+                day=date, user=user,
+                defaults={"day":date, "user":user}
                 )
         if 'frequency_form' in request.POST:
             frequency_form = request.POST
@@ -280,7 +281,7 @@ def addFrequency(request):
     else:
         pass
     categories = Categories_obj
-    ctx = {"clinicName":clinicName, "categories":categories, "userGroup":userGroup}
+    ctx = {"clinicName":clinicName, "categories":categories, "userGroup":userGroup, "date":date}
     return render(request, './clinics/add_frequency.html', ctx)
 
 ###  groups

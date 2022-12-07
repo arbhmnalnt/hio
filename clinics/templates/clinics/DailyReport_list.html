@@ -51,6 +51,11 @@
         <div class="col-12 mt-3">
             <a class="w-50 btn btn-primary" href="#" id="date_from_to">عرض</a>
         </div>
+        <div class="col-12 mt-3">
+            <a class="w-50 btn btn-info text-white" onclick="exportTableToExcel('tblData')">
+                Export Table Data To Excel File
+            </a>
+        </div>
         <div class="col-4 text-center mt-3 border-left pt-3">
             <label>اختر التصنيف</label>
         </div>
@@ -81,7 +86,7 @@
         </div>
     </div>
     <div class="col-10 m-auto text-center mb-5" style="">
-        <table class="table mt-5 table-responsive table-bordered table-hovered table-sm " 
+        <table class="table mt-5 table-responsive table-bordered table-hovered table-sm" id="tblData" 
         style="overflow-x:scroll">
             <thead style="position: sticky; top: 1px;">
                 <tr class="text-white bg-dark">
@@ -163,6 +168,38 @@
             fromToLinkel.attr("href", `/clinics/viewRecords/?dateFrom=${date_from}&dateTo=${date_to}`)
         })
     }, 500);
+</script>
+<script>
+    function exportTableToExcel(tableID, filename = ''){
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+        
+        // Specify file name
+        filename = filename?filename+'.xls':'excel_data.xls';
+        
+        // Create download link element
+        downloadLink = document.createElement("a");
+        
+        document.body.appendChild(downloadLink);
+        
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob( blob, filename);
+        }else{
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+        
+            // Setting the file name
+            downloadLink.download = filename;
+            
+            //triggering the function
+            downloadLink.click();
+        }
+    }
 </script>
 {% endblock %}
 {% endblock content %}

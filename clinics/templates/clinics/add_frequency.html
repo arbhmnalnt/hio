@@ -5,7 +5,7 @@
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
 <p class="h4 m-auto">
-    <span class="badge badge-info w-100 pt-3 pb-3" style="font-size:72%">تردد عيادة {{clinicName}}<br><br> اليوم {% now "d-m-Y" %}</span>
+    <span class="badge badge-info w-100 pt-3 pb-3" style="font-size:72%">تردد عيادة {{clinicName}}<br><br>  {{ date  }}</span>
 </p>
 <div class="pt-4 border">
     <form action="#" method="post" name="frequency" class="form" required>
