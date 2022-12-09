@@ -11,8 +11,21 @@ from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
 from django.urls import reverse_lazy
+
+import random
+
+def rand_unique_number():
+    rNum = random.randint(100,100000)
+    rNum_count = Letter.objects.filter(serial=rNum).count()
+    while rNum_count > 0:
+        rNum = random.randint(100,100000)
+    else:
+        return rNum
+
+def get_letter_serial(request, pk):
+    letter = Letter.objects.get(pk=pk)
+    return letter.serial
 
 class priceBaseView(View):
     model = ServicePrice
@@ -30,10 +43,25 @@ class ServicePriceUpdateView(priceBaseView, UpdateView):
 class ServicePriceDeleteView(priceBaseView, DeleteView):
     """View to delete a film"""
 
-# class EditLetter(UpdateView, pk):
-#     model = Letter
-#     fields = '__all__'
-#     success_url = reverse_lazy('services:PrintLetter/255', kwargs={"letter_id": post.pk})
+class EditLetter(UpdateView):
+    model = Letter
+    fields = '__all__'
+    randNum = rand_unique_number()
+    template_name_suffix = '_edit_form'
+    def get_context_data(self,*args, **kwargs):
+        context = super(EditLetter, self).get_context_data(*args,**kwargs)
+        context['randNum'] = rand_unique_number()
+        return context
+    # def get_context_data(self, **kwargs):
+    #     data = super(EditLetter, self).get_context_data(**kwargs)
+    #     data['letterId']=self.object.id
+    #     return data
+    # letterId = get_context_data()
+    def get_success_url(self, **kwargs):         
+        return reverse_lazy("services:PrintLetter", args=(self.object.id,))
+    
+    # success_url = reverse_lazy('services:PrintLetter/${data.letterId}')
+    
 
 class cancelLetter(APIView):
     def get(self, request, pk):
@@ -45,6 +73,12 @@ class cancelLetter(APIView):
 
 @login_required
 def home(request):
+    if request.user.groups.filter(name="services_member"):
+        pass
+
+    else:
+        return redirect('/clinics/profile/')
+
     if request.method=='POST':
         naId=request.POST.get('naId')
         print(f"naId => ${naId}")
@@ -65,14 +99,6 @@ def PrintLetter(request, pk):
 	ctx = {'letter':letter}
 	return render(request,'services/print_letter.html',ctx)
 
-import random
-def rand_unique_number():
-    rNum = random.randint(100,100000)
-    rNum_count = Letter.objects.filter(serial=rNum).count()
-    while rNum_count > 0:
-        rNum = random.randint(100,100000)
-    else:
-        return rNum
 
 @login_required
 def NewLetter(request):
@@ -104,3 +130,37 @@ def NewLetter(request):
             form.fields["ayada"].queryset = Ayadat.objects.filter(is_letter=True)
     ctx = {'form1':form, 'randNum':randNum, 'naId':naId}
     return render(request,'services/new_letter.html',ctx)
+
+################ Functions Part
+
+# def auth_user_custom(request):
+#     print("here")
+#     user = request.user
+#     userGroup = ""
+#     request.session.setdefault('group', False)
+#     if user.groups.filter(name="admin_all"):
+#         request.session['group'] = "admin_all"
+#         userGroup = "admin_all"
+#         return userGroup
+
+#     elif user.groups.filter(name="clinic_admin"):
+#         request.session['group'] = "clinic_admin"
+#         userGroup = "clinic_admin"
+#         return userGroup
+
+#     elif user.groups.filter(name="clinic_supervisor"):
+#         request.session['group'] = "clinic_supervisor"
+#         userGroup = "clinic_supervisor"
+#         return userGroup
+#     elif user.groups.filter(name="clinic_member"):
+#         request.session['group'] = "clinic_member"
+#         userGroup = "clinic_member"
+#         return userGroup
+#     elif user.groups.filter(name="services_member"):
+#         request.session['group'] = "services_member"
+#         userGroup = "services_member"
+#         return userGroup
+
+#     else:
+#         userGroup = "no group"
+#         return userGroup

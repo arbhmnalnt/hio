@@ -17,7 +17,14 @@
 	.form-group{
       text-align: center;
     }
-    label{
+	.form-control{
+		font-size: 1.5rem !important;
+		text-align: center !important;
+	}
+	.chosen-container{
+		font-size: 1.2rem !important;
+	}
+	label{
       font-weight: 500;
     }
     .form_holder {
@@ -96,74 +103,6 @@
         $("input#id_serial").attr('readonly', 'readonly')
 	  </script>
 	<script src="{% static 'services/js/plugins.js' %}"></script>
-	<script>
-	$("a.cancel").click(function(){
-		let letterid = $(this).attr("letterid")
-		
-        Swal.fire({
-			title: 'سبب الالغاء',
-			input: 'text',
-			inputAttributes: {
-				autocapitalize: 'off',
-				required : 'required',
-				style :"display: flex; text-align:right"
-			},
-			showCancelButton: true,
-			confirmButtonText: 'الغاء الخطاب',
-			cancelButtonText: 'رجوع',
-			showLoaderOnConfirm: true,
-			preConfirm: (login) => {
-				return fetch(`/services/cancelLetter/${letterid}?cancelReason="test"`)
-				.then(response => {
-					if (!response.ok) {
-					throw new Error(response.statusText)
-					}
-					return response.json()
-				})
-				.catch(error => {
-					Swal.showValidationMessage(
-					`Request failed: ${error}`
-					)
-				})
-			},
-			allowOutsideClick: () => !Swal.isLoading()
-			}).then((result) => {
-			if (result.isConfirmed) {
-				Swal.fire({
-				title: 'تم الغاء الخطاب',
-				})
-				
-				setTimeout(function(){
-					location.reload()
-				}, 1000)
-			}
-			
-			})
-		
-
-    })
-	</script>
-	<script>
-		$("#naId").keyup(function(){
-			let naId = $(this).val();
-			console.log('naid => ', naId);
-			if (naId.length == 14){
-				$("#newLetterLink").attr('href', `/services/new?naId=${naId}`)
-			}
-		})
-		
-	</script>
-
-	<script>
-		setTimeout(() => {
-			let naId = $("#urlNaid").val();
-			console.log("naId => ", naId);
-			$("#div_id_naId #id_naId").attr('value', naId);
-		}, 900);
-
-		// $("input.nid-input").click(function(){
-		// 	$(this).css({'border-color': '#0000ff'});
-		// })
-	</script>
+	
 </body>
 </html>

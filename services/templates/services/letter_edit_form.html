@@ -15,46 +15,46 @@
             <input class="d-none" id="randNum" value="{{randNum}}">
             <input class="d-none" id="urlNaid" value="{{naId}}">
             <div class="col-4">
-              {{ form1.serial|as_crispy_field }}
+              {{ form.serial|as_crispy_field }}
             </div>
             <div class="col-4">
-              {{ form1.name|as_crispy_field }}
+              {{ form.name|as_crispy_field }}
             </div>
             <div class="col-4">
-              {{ form1.naId|as_crispy_field }}
+              {{ form.naId|as_crispy_field }}
             </div>
             <div class="col-4">
-              {{ form1.by_doctor|as_crispy_field }}
+              {{ form.by_doctor|as_crispy_field }}
             </div>
             <hr>
             <div class="col-5">
-              {{ form1.law|as_crispy_field }}
+              {{ form.law|as_crispy_field }}
             </div>
             <div class="col-6">
-              {{ form1.ayada|as_crispy_field }}
+              {{ form.ayada|as_crispy_field }}
             </div>
             <hr>
             <div class="col-4">
-              {{ form1.diagnosis|as_crispy_field }}
+              {{ form.diagnosis|as_crispy_field }}
             </div>
             <div class="col-4">
-                {{ form1.description|as_crispy_field }}
+                {{ form.description|as_crispy_field }}
             </div>
             <div class="col-4">
-              {{ form1.price|as_crispy_field }}
+              {{ form.price|as_crispy_field }}
             </div>
             <hr>
             <div class="col-6" id="id_services_holder">
               <p class="mt-0 mb-0"><label>إختر الخدمة / الخدمات</label></p>
-              {{ form1.services }}
+              {{ form.services }}
             </div>
             <div class="col-6 h4">
-              {{ form1.entity|as_crispy_field }}
+              {{ form.entity|as_crispy_field }}
             </div>
             <hr>
             <div class="col-4">
                 <input id="created_by" class="d-none" value="{{request.user.first_name}} {{request.user.last_name}}">
-              {{ form1.created_by|as_crispy_field }}
+              {{ form.created_by|as_crispy_field }}
             </div>
             <div class="col-4 mr-auto">
                 {% buttons %}
@@ -66,7 +66,13 @@
 {% endblock %}
 {% block script %}
 <script>
-  $(".form-control").css("font-size","1.5rem !important")
-  console.log("asssssssss")
-</script>
+    setTimeout(function(){
+        $(".form-control").css("font-size","1.5rem !important")
+        console.log("asssssssss")
+    }
+    //
+
+    //
+    ,500)
+  </script>
 {% endblock %}

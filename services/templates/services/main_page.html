@@ -31,7 +31,7 @@
             <div class="nid-holder">
                     {% csrf_token %}
                     <label for="naId"></label>
-                    <input value="{{naId}}" class="nid-input" id="naId" name="naId" type="text" maxlength="14" minlength="14" required
+                    <input value="{{naId}}" class="form-control text-center" id="naId" name="naId" type="text" maxlength="14" minlength="14" required
                     placeholder="الرقم القومى">
                     <br>
             </div>
@@ -54,6 +54,7 @@
                         <tr class="bg-dark text-white">
                             <th>أمر 1</th>
                             <th>أمر 2</th>
+                            <th>أمر 3</th>
                             <th>اسم المنتفع</th>
                             <th>رقم خطاب التحويل</th>
                             <th>تاريخ التحويل</th>
@@ -65,8 +66,14 @@
                     {%for letter in letters%}
                     <tbody>
                         <tr id="{{letter.id}}">
-                            <td><a class="btn btn-primary text-white cancel" letterId="{{letter.id}}">الغاء</a></td>
-                            <td><a class="btn btn-primary" href="/services/PrintLetter/{{letter.id}}">طباعة</a>
+                            <td><a class="btn btn-danger text-white cancel" letterId="{{letter.id}}">الغاء</a></td>
+                            <td>
+                                <input type="hidden" value="{{letter.id}}" id="letterId">
+                                <a class="btn btn-info text-white edit editLink" letterId="{{letter.id}}"
+                                href="#">تعديل</a>
+                            <input type="hidden" value="" id="naIdEdit">
+                        </td>
+                            <td><a class="btn btn-success" href="/services/PrintLetter/{{letter.id}}">طباعة</a>
                             </td>
                             <td>{{letter.name}}</td>
                             <td>{{letter.serial}}</td>
@@ -87,7 +94,94 @@
     </div>
 </div>
 <script>
-    // console.log("working")
-    
+    console.log("working")
+    setTimeout(() => {
+        $("input#naIdEdit").attr("value", $("input#naId").val());
+        $(".editLink").each(function() {
+            let letterId = $($(this)).prev("input").val(),
+                naId = $(this).next("input").val();
+            $(this).attr("href", `editLetter/${letterId}/?naId=${naId}`)
+        })
+    }, 900);
 </script>
+{% endblock %}
+{% block script %}
+<script>
+	$("a.cancel").click(function(){
+		let letterid = $(this).attr("letterid")
+		
+        Swal.fire({
+			title: 'سبب الالغاء',
+			input: 'text',
+			inputAttributes: {
+				autocapitalize: 'off',
+				required : 'required',
+				style :"display: flex; text-align:right"
+			},
+			showCancelButton: true,
+			confirmButtonText: 'الغاء الخطاب',
+			cancelButtonText: 'رجوع',
+			showLoaderOnConfirm: true,
+			preConfirm: (login) => {
+				return fetch(`/services/cancelLetter/${letterid}?cancelReason="test"`)
+				.then(response => {
+					if (!response.ok) {
+					throw new Error(response.statusText)
+					}
+					return response.json()
+				})
+				.catch(error => {
+					Swal.showValidationMessage(
+					`Request failed: ${error}`
+					)
+				})
+			},
+			allowOutsideClick: () => !Swal.isLoading()
+			}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+				title: 'تم الغاء الخطاب',
+				})
+				
+				setTimeout(function(){
+					location.reload()
+				}, 1000)
+			}
+			
+			})
+		
+
+    })
+	</script>
+	<script>
+
+		$("#naId").keyup(function(){
+			let naId = $(this).val();
+			// console.log('naid => ', naId);
+			if (naId.length == 14){
+				$("#newLetterLink").attr('href', `/services/new?naId=${naId}`)
+			}
+		})
+
+		setInterval(function(){
+			let naId = $("#naId").val();
+			if (naId.length == 14){
+                console.log("saaaaaaaaaaa")
+				$("#newLetterLink").attr('href', `/services/new?naId=${naId}`)
+			}
+		},500)
+		
+	</script>
+
+	<script>
+		setTimeout(() => {
+			let naId = $("#urlNaid").val();
+			console.log("naId => ", naId);
+			$("#div_id_naId #id_naId").attr('value', naId);
+		}, 900);
+        
+		// $("input.nid-input").click(function(){
+		// 	$(this).css({'border-color': '#0000ff'});
+		// })
+	</script>
 {% endblock %}
