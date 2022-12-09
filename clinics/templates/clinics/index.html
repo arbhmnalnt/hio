@@ -109,8 +109,11 @@
 
 		setInterval(function(){
 			$("input.form-control").each(function() { 
-				// console.log(`value => ${$(this).val()}`)
-				if($(this).attr('value') == ""){
+				
+				let lenn = $(this).val().length;
+				if(lenn == 0){
+					console.log(`value => ${$(this).val().length}`)
+					console.log(`len => ${lenn}`)
 					$(this).attr('value', 0)
 				}
 			})
