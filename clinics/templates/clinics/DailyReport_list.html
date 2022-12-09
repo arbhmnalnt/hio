@@ -53,7 +53,7 @@
         </div>
         <div class="col-12 mt-3">
             <a class="w-50 btn btn-info text-white" onclick="exportTableToExcel('tblData')">
-                Export Table Data To Excel File
+                تنزيل الى ملف excell
             </a>
         </div>
         <div class="col-4 text-center mt-3 border-left pt-3">
@@ -63,14 +63,14 @@
             <span>
                 <input type="checkbox" name="kind" value="advisory" id="advisory">
                 <label>الاستشارى</label>
-                
+
             </span>
             <span class="custom-m" mb-md-0>
                 <input type="checkbox"  name="kind" value="specialist" id="specialist">
                 <label>الاخصائى</label>
-                
+
             </span>
-            
+
         </div>
     </div>
     <br>
@@ -86,8 +86,8 @@
         </div>
     </div>
     <div class="col-10 m-auto text-center mb-5" style="">
-        <table class="table mt-5 table-responsive table-bordered table-hovered table-sm" id="tblData" 
-        style="overflow-x:scroll">
+        <table class="table mt-5 table-responsive table-bordered table-hovered table-sm" id="tblData"
+        style="overflow:scrolll; max-height:600px">
             <thead style="position: sticky; top: 1px;">
                 <tr class="text-white bg-dark">
                     <th class="text-center" scope="col">اليوم</th>
@@ -102,7 +102,7 @@
             <tbody>
                 {% for DailyReport in DailyReports %}
                 <tr>
-                    <td class="text-center d-inline-block" 
+                    <td class="text-center d-inline-block"
                     style="width: 100px;position: sticky;right: 1px; background: white;">{{DailyReport.day|date:"Y-m-d"}}</td>
                     <td class="text-center">{{DailyReport.category}}</td>
                     <td class="text-center specialist-val">{{DailyReport.specialist}}</td>
@@ -112,12 +112,12 @@
                     <td class="text-center">{{DailyReport.childPapers}}</td>
                 </tr>
             {% endfor %}
-        
+
             </tbody>
-        </table>    
+        </table>
     </div>
 </div>
-        
+
 {% block script %}
 <script>
     // specialist advisory
@@ -149,7 +149,7 @@
                     $(".specialist-val").addClass("d-none")
                     $(".advisory-val").removeClass("d-none")
                 }
-            }        
+            }
     },500)
 
     setTimeout(() => {
@@ -170,20 +170,20 @@
     }, 500);
 </script>
 <script>
-    function exportTableToExcel(tableID, filename = ''){
+    function exportTableToExcel(tableID, filename = 'سجل ترددات العيادة'){
         var downloadLink;
         var dataType = 'application/vnd.ms-excel';
         var tableSelect = document.getElementById(tableID);
         var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-        
+
         // Specify file name
         filename = filename?filename+'.xls':'excel_data.xls';
-        
+
         // Create download link element
         downloadLink = document.createElement("a");
-        
+
         document.body.appendChild(downloadLink);
-        
+
         if(navigator.msSaveOrOpenBlob){
             var blob = new Blob(['\ufeff', tableHTML], {
                 type: dataType
@@ -192,10 +192,10 @@
         }else{
             // Create a link to the file
             downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-        
+
             // Setting the file name
             downloadLink.download = filename;
-            
+
             //triggering the function
             downloadLink.click();
         }

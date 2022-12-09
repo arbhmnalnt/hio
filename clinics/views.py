@@ -59,7 +59,7 @@ class update_record(APIView):
 
 class get_cat_vals(APIView):
     def get(self, request):
-        
+
         catId = request.GET.get('catId', '-')
         dailyReportId = request.GET.get('dailyReportId', '-')
         # print('catId => ', catId)
@@ -102,20 +102,20 @@ def DailyReportListView(request):
     catList = [cat.specific.name for cat in cats]
     dateFrom =request.GET.get('dateFrom', '0')
     dateTo = request.GET.get('dateTo', '0')
-    
+
     if dateFrom != '0' and dateTo != '0':
         dateFrom = parse_date(dateFrom)
         dateTo = parse_date(dateTo)
-        DailyReports = DailyReport.objects.filter(day__range=[dateFrom, dateTo], ayada=user_clinic).order_by('day')
+        DailyReports = DailyReport.objects.filter(day__range=[dateFrom, dateTo], ayada=user_clinic).order_by('-day')
     else:
-        DailyReports = DailyReport.objects.filter(ayada=user_clinic).order_by('day')
+        DailyReports = DailyReport.objects.filter(ayada=user_clinic).order_by('-day')
     counter = DailyReports.count()
     if counter == 0:
         msg = 'لا يوجد ادخال فى التاريخ المحدد'
     else:
         msg=''
     ctx = {'DailyReports':DailyReports, 'msg':msg, 'catList':catList}
-    
+
     return render(request, './clinics/DailyReport_list.html', ctx)
 
 @login_required
@@ -143,7 +143,7 @@ def recordManage(request):
 
     ctx = {'month':month}
     return render(request, 'clinics/record_management.html', ctx)
-    
+
 @csrf_exempt
 def login(request):
     message = ''
@@ -227,6 +227,7 @@ def thanks(request):
 def addFrequency(request):
     today_date = datetime.now().date()
     date = request.GET.get('date', today_date)
+    print("date => ", date)
     month = datetime.now().month
     user_clinic = request.user.employee.area
     clinicName = user_clinic.name
@@ -242,7 +243,7 @@ def addFrequency(request):
         msg = e
         return redirect(f'/accounts/login')
     # check if user previously recorded or this is first time
-    
+
     user_id = request.user.id
     user = User.objects.get(pk=user_id)
     print(f"date => {date}")
@@ -271,7 +272,7 @@ def addFrequency(request):
             frequency_form = request.POST
             try:
                 formDict = frequency_form.dict()
-                status = addDataToDailyReport(formDict,user_clinic)
+                status = addDataToDailyReport(formDict,date,user_clinic)
 
                 return redirect('/clinics/thanks')
             except Exception as e:
@@ -333,8 +334,8 @@ def getTotal(cats, date):
             total += nums
     return total
 
-def addDataToDailyReport(data,ayada):
-    today_date = datetime.now().date()
+def addDataToDailyReport(data, date,ayada):
+    today_date = date
     month = datetime.now().month
     categories = Category.objects.filter(ayada=ayada)
     del data['csrfmiddlewaretoken']
