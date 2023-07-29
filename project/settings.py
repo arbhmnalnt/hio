@@ -11,6 +11,33 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import pytz
+
+from datetime import datetime, timedelta
+
+## time zone +1 as the daysavelight
+# Define the Cairo time zone with DST
+cairo_tz = pytz.timezone('Africa/Cairo')
+
+# Define the DST transition dates for Cairo
+# Note: These dates may change in future years, so you may need to update them accordingly
+cairo_dst_start = datetime(2023, 4, 28, 0, 0, tzinfo=cairo_tz)
+cairo_dst_end = datetime(2023, 9, 1, 0, 0, tzinfo=cairo_tz)
+
+# Define a custom time zone object that includes DST transitions for Cairo
+class CairoTimezone(pytz.tzinfo.BaseTzInfo):
+    def utcoffset(self, dt):
+        return timedelta(hours=2) + self.dst(dt)
+
+    def dst(self, dt):
+        if cairo_dst_start <= dt.replace(tzinfo=None) < cairo_dst_end:
+            return timedelta(hours=1)
+        else:
+            return timedelta(0)
+
+    def tzname(self, dt):
+        return 'EET' if not self.dst(dt) else 'EEST'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,22 +109,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 # variables to be changed to work on localhost or online in pythonanywhere
-dataBaseName = "hio"
-dataBaseUser = "root"
-password     = "123456"
-host         = "127.0.0.1"
-port         = "3306"
+dataBaseName = "test"
+dataBaseUser = "hio"
+password     = "vr^*6QgT"
+host         = "hio.mysql.pythonanywhere-services.com"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': dataBaseName,
-        'USER': dataBaseUser,
-        'PASSWORD': password,
-        'HOST': host,
-        'PORT': port,
+        'NAME': 'hio$hio',
+        'USER': 'hio',
+        'PASSWORD': 'vr^*6QgT',
+        'HOST': "hio.mysql.pythonanywhere-services.com",
+        'PORT':'3306',
         'OPTIONS': {
             'sql_mode': 'traditional',
         }
@@ -129,7 +155,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Egypt'
+# Set the TIME_ZONE variable to the name of the Cairo time zone
+TIME_ZONE = 'Africa/Cairo'
+
+# Replace the default time zone with a custom time zone object that includes DST transitions for Cairo
+pytz.timezone = lambda name: CairoTimezone() if name == 'Africa/Cairoo' else pytz.timezone(name)
+
 
 USE_I18N = True
 
@@ -146,9 +177,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# localPath = "/home/hio/hio_project"
-localPath = "/theWebsiteProject/hio_project"
-
+localPath = "/home/hio/hio_project"
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
 MEDIA_ROOT = localPath +'/media/'
@@ -158,5 +187,3 @@ STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-
-LOGIN_URL = '/clinics/login'

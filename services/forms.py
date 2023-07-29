@@ -1,12 +1,13 @@
 from dataclasses import fields
 from django import forms
-from .models import Letter, Service, ServicePrice
+from .models import *
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
 
 class LetterForm(forms.ModelForm):
     # custom_ayada =
     services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=FilteredSelectMultiple("services", is_stacked=True))
+    # ayada    = forms.ModelMultipleChoiceField(queryset=Ayadat.objects.all())
     class Meta:
         model  = Letter
 
@@ -17,4 +18,3 @@ class sevicePriceForm(forms.ModelForm):
     class Meta:
         model = ServicePrice
         fields = ['name', 'price', 'notes']
-    

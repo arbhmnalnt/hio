@@ -90,9 +90,7 @@ class Letter(TimeStampMixin,models.Model):
     law         = models.ForeignKey('Law', related_name='letter_law', on_delete=models.CASCADE, verbose_name="قانون الانتفاع")
     ayada       = models.ForeignKey('Ayadat', related_name='letter_law', on_delete=models.CASCADE, verbose_name="العيادة المحول منها")
     diagnosis   = models.CharField(max_length=50, default=" ", verbose_name="التشخيص") # التشخيص
-
     description = models.TextField(max_length=250, default=" ", verbose_name="وصف الحالة")
-
     # second part  services info
     price       = models.IntegerField(default=0, verbose_name="الرسوم المقررة")
     services    = models.ManyToManyField('Service', blank=True, related_name='services',verbose_name="الخدمات")
@@ -104,5 +102,6 @@ class Letter(TimeStampMixin,models.Model):
 
 class ServicePrice(TimeStampMixin,models.Model):
     name  = models.ForeignKey('Service', related_name='service_price', on_delete=models.CASCADE, verbose_name="اسم الخدمة")
+    publicPrice = models.IntegerField(default=0, verbose_name="توريد المنتفع")
     price = models.IntegerField(default=0, verbose_name="الرسوم المقررة")
     notes = models.CharField(max_length=50, default=" ", verbose_name="ملاحظات")

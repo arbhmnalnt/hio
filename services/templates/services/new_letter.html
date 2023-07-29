@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 <style>
-    
+
 </style>
 {% block title %}<title>خدمة جديدة</title>{% endblock %}
 
@@ -38,7 +38,14 @@
               {{ form1.diagnosis|as_crispy_field }}
             </div>
             <div class="col-4">
+                <div class="w-100" id="sug_holders">
+                    <input class="w-100" list="descs" id="fruits" name="fruits">
+                    <datalist id="descs">
+                        <option>test</option>
+                    </datalist>
+                </div>
                 {{ form1.description|as_crispy_field }}
+
             </div>
             <div class="col-4">
               {{ form1.price|as_crispy_field }}
@@ -67,6 +74,32 @@
 {% block script %}
 <script>
   $(".form-control").css("font-size","1.5rem !important")
-  console.log("asssssssss")
+  // get previous descriptions
+  $("#id_description").keyup(function(){
+      let q = $(this).val();
+      console.log(q)
+      $.ajax({
+      url: `/services/getDesc/`,
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        q: q,
+      },
+      success: function(data) {
+        // console.log('data received:', data['descriptions']);
+        var descriptions = data.descriptions;
+
+        for (var i = 0; i < data.length; i++) {
+          console.log(`data${i} => ${data}`)
+        }
+
+      },
+      error: function(xhr, status, error) {
+        console.log('Error:', error);
+      }
+    });
+  })
+
+
 </script>
 {% endblock %}

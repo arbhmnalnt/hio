@@ -11,7 +11,7 @@ class EmployeeInline(admin.StackedInline):
     verbose_name_plural = 'موظف'
 
 class ServicePriceAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('name','price','notes')
+    list_display = ('name','notes')
     search_fields = ['name',]
 
 class UserAdmin(BaseUserAdmin):
@@ -31,7 +31,7 @@ class EntitySubClassAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 class LetterAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ['serial','name', 'naId']
-    list_display = ('name','naId','get_services', 'entity','created_at_date', 'created_by')
+    list_display = ('name','naId','get_services', 'description','entity','created_at_date', 'created_by')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

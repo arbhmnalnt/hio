@@ -12,8 +12,23 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
+from django.http import JsonResponse
+
 
 import random
+
+@csrf_exempt
+def getDesc(request):
+    q = request.POST.get('q')
+    # Construct a query to search for all Letter objects with a description containing the provided phrase
+    query = Q(description__icontains=q)
+    # Retrieve all matching Letter objects and return their descriptions as a list
+    letters = Letter.objects.filter(query)
+    descriptions = [letter.description for letter in letters]
+    return JsonResponse({'descriptions': descriptions})
+
 
 def rand_unique_number():
     rNum = random.randint(100,100000)
@@ -57,11 +72,18 @@ class EditLetter(UpdateView):
     #     data['letterId']=self.object.id
     #     return data
     # letterId = get_context_data()
-    def get_success_url(self, **kwargs):         
+    def get_success_url(self, **kwargs):
         return reverse_lazy("services:PrintLetter", args=(self.object.id,))
-    
+
     # success_url = reverse_lazy('services:PrintLetter/${data.letterId}')
-    
+
+class servicePricesCalc(APIView):
+    def get(self, request):
+        servicesArray = request.GET['services']
+        total = 0
+        total += [serv.publicPrice for serv in  servicesArray]
+        data = {'total':total}
+        return Response(data)
 
 class cancelLetter(APIView):
     def get(self, request, pk):
@@ -125,7 +147,7 @@ def NewLetter(request):
         if userArea_id != 7:
             # userAyada =  User.objects.get(pk=userId).employee.area.id
             # print(userAyada)
-            form.fields["ayada"].queryset = Ayadat.objects.filter(id=userArea_id)
+            form.fields["ayada"].queryset = Ayadat.objects.all()
         else:
             form.fields["ayada"].queryset = Ayadat.objects.filter(is_letter=True)
     ctx = {'form1':form, 'randNum':randNum, 'naId':naId}
